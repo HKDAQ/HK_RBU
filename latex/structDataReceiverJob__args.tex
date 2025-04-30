@@ -1,0 +1,38 @@
+\hypertarget{structDataReceiverJob__args}{}\doxysection{Data\+Receiver\+Job\+\_\+args Struct Reference}
+\label{structDataReceiverJob__args}\index{DataReceiverJob\_args@{DataReceiverJob\_args}}
+
+
+{\ttfamily \#include $<$Data\+Receiver.\+h$>$}
+
+Inheritance diagram for Data\+Receiver\+Job\+\_\+args\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{structDataReceiverJob__args}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structDataReceiverJob__args_a2744f56f22acd3e7a89615196c57bd3d}\label{structDataReceiverJob__args_a2744f56f22acd3e7a89615196c57bd3d}} 
+\mbox{\hyperlink{classDataModel}{Data\+Model}} $\ast$ {\bfseries m\+\_\+data}
+\item 
+\mbox{\Hypertarget{structDataReceiverJob__args_acd68bb5af342627fb5979756ca830dd7}\label{structDataReceiverJob__args_acd68bb5af342627fb5979756ca830dd7}} 
+std\+::vector$<$ zmq\+::message\+\_\+t $>$ $\ast$ {\bfseries messages}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This is a struct to place data you want your thread to access or exchange with it. The idea is the datainside is only used by the threa\textbackslash{}d and so will be thread safe
+
+\begin{DoxyParagraph}{Author}
+B.\+Richards 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Date}
+2019/05/28 10\+:44\+:00 
+\end{DoxyParagraph}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+User\+Tools/\+Data\+Receiver/Data\+Receiver.\+h\item 
+User\+Tools/\+Data\+Receiver/Data\+Receiver.\+cpp\end{DoxyCompactItemize}
