@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['words_113',['words',['../structDataReceiverJob__args.html#af300f1b41178532f2a25b442f551529e',1,'DataReceiverJob_args']]]
+  ['tmp_5fdata_115',['tmp_data',['../structDataReceiver__args.html#a54da43a974820b304488a26b8f852175',1,'DataReceiver_args']]],
+  ['tmp_5fhit_116',['tmp_hit',['../structDataReceiverJob__args.html#aa47b64da93c92d3f1ebf16d2300874fa',1,'DataReceiverJob_args']]]
 ];

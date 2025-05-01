@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['service_108',['service',['../structDataReceiver__args.html#ad1bb638e3e83e172ce707329cd7fd517',1,'DataReceiver_args']]],
-  ['sock_109',['sock',['../structDataReceiver__args.html#af63c8015bd50729237e0375d26121c6d',1,'DataReceiver_args']]],
-  ['start_5fpos_110',['start_pos',['../structDataReceiverJob__args.html#ac41c3b805af15d706b18c5335872a9e2',1,'DataReceiverJob_args']]]
+  ['reply_110',['reply',['../structDataReceiver__args.html#a6ddef8879f34799762ab2dc35766c6ae',1,'DataReceiver_args']]],
+  ['return_5fcheck_111',['return_check',['../structDataReceiver__args.html#ac4cd6132126dce188fa84d443df640db',1,'DataReceiver_args']]]
 ];

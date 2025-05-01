@@ -142,6 +142,14 @@ Pool&lt; Job &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="e
 Pool&lt; std::vector&lt; zmq::message_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a8190734579d36ce64871e6bf294a6c40">message_pool</a></td></tr>
 <tr class="memdesc:a8190734579d36ce64871e6bf294a6c40"><td class="mdescLeft">&#160;</td><td class="mdescRight">pool to reuse old message vectors to save new instansiations <br /></td></tr>
 <tr class="separator:a8190734579d36ce64871e6bf294a6c40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4cd6132126dce188fa84d443df640db"><td class="memItemLeft" align="right" valign="top"><a id="ac4cd6132126dce188fa84d443df640db"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#ac4cd6132126dce188fa84d443df640db">return_check</a> = true</td></tr>
+<tr class="memdesc:ac4cd6132126dce188fa84d443df640db"><td class="mdescLeft">&#160;</td><td class="mdescRight">variable for checking retuns values <br /></td></tr>
+<tr class="separator:ac4cd6132126dce188fa84d443df640db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ddef8879f34799762ab2dc35766c6ae"><td class="memItemLeft" align="right" valign="top"><a id="a6ddef8879f34799762ab2dc35766c6ae"></a>
+zmq::message_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a6ddef8879f34799762ab2dc35766c6ae">reply</a></td></tr>
+<tr class="memdesc:a6ddef8879f34799762ab2dc35766c6ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">mesasge to send electronics reply <br /></td></tr>
+<tr class="separator:a6ddef8879f34799762ab2dc35766c6ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This is a struct to place data you want your thread to access or exchange with it. The idea is the data inside is only used by the thread and so will be thread safe. This is used for the two threads receiveing IDOD data and MPMT data.</p>
