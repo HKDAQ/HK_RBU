@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['execute_6',['Execute',['../classDataReceiver.html#a3c1680e2c444c3426e0547436ed037e7',1,'DataReceiver::Execute()'],['../classDummyTool.html#ac107b31f1785c1cc803e0e65be548047',1,'DummyTool::Execute()'],['../classMyTool.html#a0a58122023af90b9200d0e71e89cfb36',1,'MyTool::Execute()'],['../classMyToolDynamicMultiThread.html#aec2f9af9495520d74bb154d626a94a63',1,'MyToolDynamicMultiThread::Execute()'],['../classMyToolMultiThread.html#a9cd7c894fc4797b2d81e12e25eb5beec',1,'MyToolMultiThread::Execute()'],['../classMyToolServiceAdd.html#a876f8dac7b415b064d09687abac8e296',1,'MyToolServiceAdd::Execute()'],['../classMyToolThread.html#a9b582cd202d5578682d57d973988df3c',1,'MyToolThread::Execute()'],['../classMyToolZMQMultiThread.html#a15dea77298aa4c4b0e8a5cbbd244df28',1,'MyToolZMQMultiThread::Execute()']]]
+  ['collections_1',['collections',['../structDataReceiverJob__args.html#a946050ca574a15c82fffb3fc7ef6302d',1,'DataReceiverJob_args']]],
+  ['connections_2',['connections',['../structDataReceiver__args.html#ae99d32e44e028fb1932023276fa8fea2',1,'DataReceiver_args']]],
+  ['current_5fbin_3',['current_bin',['../structDataReceiverJob__args.html#a312ec00fcd64b34f063b0c5fa2fdcc26',1,'DataReceiverJob_args']]],
+  ['current_5fword_4',['current_word',['../structDataReceiverJob__args.html#aa35aee619af231768079879396803d4b',1,'DataReceiverJob_args']]]
 ];

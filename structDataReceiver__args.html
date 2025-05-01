@@ -80,52 +80,72 @@ Inheritance diagram for DataReceiver_args:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a1c930a11581d31c7baa58234c948a495"><td class="memItemLeft" align="right" valign="top"><a id="a1c930a11581d31c7baa58234c948a495"></a>
-<a class="el" href="classDataModel.html">DataModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>m_data</b></td></tr>
+<a class="el" href="classDataModel.html">DataModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a1c930a11581d31c7baa58234c948a495">m_data</a></td></tr>
+<tr class="memdesc:a1c930a11581d31c7baa58234c948a495"><td class="mdescLeft">&#160;</td><td class="mdescRight">pointer to central data model to get agrigated electronics data collections <br /></td></tr>
 <tr class="separator:a1c930a11581d31c7baa58234c948a495"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0871ab3d74af8400d048b1eb3a6d8aac"><td class="memItemLeft" align="right" valign="top"><a id="a0871ab3d74af8400d048b1eb3a6d8aac"></a>
-DAQUtilities *&#160;</td><td class="memItemRight" valign="bottom"><b>m_util</b></td></tr>
+DAQUtilities *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a0871ab3d74af8400d048b1eb3a6d8aac">m_util</a></td></tr>
+<tr class="memdesc:a0871ab3d74af8400d048b1eb3a6d8aac"><td class="mdescLeft">&#160;</td><td class="mdescRight">pointer to utilities class to help with thread createion and deletion <br /></td></tr>
 <tr class="separator:a0871ab3d74af8400d048b1eb3a6d8aac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af63c8015bd50729237e0375d26121c6d"><td class="memItemLeft" align="right" valign="top"><a id="af63c8015bd50729237e0375d26121c6d"></a>
-zmq::socket_t *&#160;</td><td class="memItemRight" valign="bottom"><b>sock</b></td></tr>
+zmq::socket_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#af63c8015bd50729237e0375d26121c6d">sock</a></td></tr>
+<tr class="memdesc:af63c8015bd50729237e0375d26121c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">socket pointer for receiving data form electronics <br /></td></tr>
 <tr class="separator:af63c8015bd50729237e0375d26121c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae99d32e44e028fb1932023276fa8fea2"><td class="memItemLeft" align="right" valign="top"><a id="ae99d32e44e028fb1932023276fa8fea2"></a>
-std::map&lt; std::string, Store * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>connections</b></td></tr>
+std::map&lt; std::string, Store * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#ae99d32e44e028fb1932023276fa8fea2">connections</a></td></tr>
+<tr class="memdesc:ae99d32e44e028fb1932023276fa8fea2"><td class="mdescLeft">&#160;</td><td class="mdescRight">list of connections that have been made <br /></td></tr>
 <tr class="separator:ae99d32e44e028fb1932023276fa8fea2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5d91fc4c54877a2b42a247a69f482dd"><td class="memItemLeft" align="right" valign="top"><a id="ad5d91fc4c54877a2b42a247a69f482dd"></a>
-zmq::pollitem_t&#160;</td><td class="memItemRight" valign="bottom"><b>items</b> [1]</td></tr>
+zmq::pollitem_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#ad5d91fc4c54877a2b42a247a69f482dd">items</a> [1]</td></tr>
+<tr class="memdesc:ad5d91fc4c54877a2b42a247a69f482dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">poll list to avoid blocking <br /></td></tr>
 <tr class="separator:ad5d91fc4c54877a2b42a247a69f482dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e3f80ae781cdebe399478f770272b29"><td class="memItemLeft" align="right" valign="top"><a id="a0e3f80ae781cdebe399478f770272b29"></a>
-boost::posix_time::time_duration&#160;</td><td class="memItemRight" valign="bottom"><b>lapse</b></td></tr>
+boost::posix_time::time_duration&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a0e3f80ae781cdebe399478f770272b29">lapse</a></td></tr>
+<tr class="memdesc:a0e3f80ae781cdebe399478f770272b29"><td class="mdescLeft">&#160;</td><td class="mdescRight">duration to tell if need to update connections <br /></td></tr>
 <tr class="separator:a0e3f80ae781cdebe399478f770272b29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4a8c54abf63a6edec83ed0d5a31c65c"><td class="memItemLeft" align="right" valign="top"><a id="aa4a8c54abf63a6edec83ed0d5a31c65c"></a>
-boost::posix_time::time_duration&#160;</td><td class="memItemRight" valign="bottom"><b>period</b></td></tr>
+boost::posix_time::time_duration&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#aa4a8c54abf63a6edec83ed0d5a31c65c">period</a></td></tr>
+<tr class="memdesc:aa4a8c54abf63a6edec83ed0d5a31c65c"><td class="mdescLeft">&#160;</td><td class="mdescRight">period to check for new electroncis baord connections <br /></td></tr>
 <tr class="separator:aa4a8c54abf63a6edec83ed0d5a31c65c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2390a84511c3ff73d979062a2e92077d"><td class="memItemLeft" align="right" valign="top"><a id="a2390a84511c3ff73d979062a2e92077d"></a>
-boost::posix_time::ptime&#160;</td><td class="memItemRight" valign="bottom"><b>last</b></td></tr>
+boost::posix_time::ptime&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a2390a84511c3ff73d979062a2e92077d">last</a></td></tr>
+<tr class="memdesc:a2390a84511c3ff73d979062a2e92077d"><td class="mdescLeft">&#160;</td><td class="mdescRight">time of last search for new connections <br /></td></tr>
 <tr class="separator:a2390a84511c3ff73d979062a2e92077d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1bb638e3e83e172ce707329cd7fd517"><td class="memItemLeft" align="right" valign="top"><a id="ad1bb638e3e83e172ce707329cd7fd517"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>service</b></td></tr>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#ad1bb638e3e83e172ce707329cd7fd517">service</a></td></tr>
+<tr class="memdesc:ad1bb638e3e83e172ce707329cd7fd517"><td class="mdescLeft">&#160;</td><td class="mdescRight">mane of service to look for when connecting to new services <br /></td></tr>
 <tr class="separator:ad1bb638e3e83e172ce707329cd7fd517"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0599bc651370ded13dfdbd56a8846699"><td class="memItemLeft" align="right" valign="top"><a id="a0599bc651370ded13dfdbd56a8846699"></a>
-std::vector&lt; zmq::message_t &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>messages</b></td></tr>
+std::vector&lt; zmq::message_t &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a0599bc651370ded13dfdbd56a8846699">messages</a></td></tr>
+<tr class="memdesc:a0599bc651370ded13dfdbd56a8846699"><td class="mdescLeft">&#160;</td><td class="mdescRight">temporary pointer for received messages <br /></td></tr>
 <tr class="separator:a0599bc651370ded13dfdbd56a8846699"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e3ef79a5996537a2beb7ddd8e304fdd"><td class="memItemLeft" align="right" valign="top"><a id="a2e3ef79a5996537a2beb7ddd8e304fdd"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>num_connections</b></td></tr>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a2e3ef79a5996537a2beb7ddd8e304fdd">num_connections</a></td></tr>
+<tr class="memdesc:a2e3ef79a5996537a2beb7ddd8e304fdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">current number of connections <br /></td></tr>
 <tr class="separator:a2e3ef79a5996537a2beb7ddd8e304fdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a546652e6861849016e198fb9791cd93c"><td class="memItemLeft" align="right" valign="top"><a id="a546652e6861849016e198fb9791cd93c"></a>
 Job *&#160;</td><td class="memItemRight" valign="bottom"><b>tmp_job</b></td></tr>
 <tr class="separator:a546652e6861849016e198fb9791cd93c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54da43a974820b304488a26b8f852175"><td class="memItemLeft" align="right" valign="top"><a id="a54da43a974820b304488a26b8f852175"></a>
-<a class="el" href="structDataReceiverJob__args.html">DataReceiverJob_args</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>tmp_data</b></td></tr>
+<a class="el" href="structDataReceiverJob__args.html">DataReceiverJob_args</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a54da43a974820b304488a26b8f852175">tmp_data</a></td></tr>
+<tr class="memdesc:a54da43a974820b304488a26b8f852175"><td class="mdescLeft">&#160;</td><td class="mdescRight">temporary point for making job data <br /></td></tr>
 <tr class="separator:a54da43a974820b304488a26b8f852175"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f6c3b95bd6c5f55cfaf4ac8a4141824"><td class="memItemLeft" align="right" valign="top"><a id="a8f6c3b95bd6c5f55cfaf4ac8a4141824"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>data_port</b></td></tr>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a8f6c3b95bd6c5f55cfaf4ac8a4141824">data_port</a></td></tr>
+<tr class="memdesc:a8f6c3b95bd6c5f55cfaf4ac8a4141824"><td class="mdescLeft">&#160;</td><td class="mdescRight">port to connect to new electronics baords on <br /></td></tr>
 <tr class="separator:a8f6c3b95bd6c5f55cfaf4ac8a4141824"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac24191f4189b835c5350f4ec46a083e2"><td class="memItemLeft" align="right" valign="top"><a id="ac24191f4189b835c5350f4ec46a083e2"></a>
+Pool&lt; Job &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#ac24191f4189b835c5350f4ec46a083e2">job_pool</a></td></tr>
+<tr class="memdesc:ac24191f4189b835c5350f4ec46a083e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">pool to reuse old jobs to save new instansiations <br /></td></tr>
+<tr class="separator:ac24191f4189b835c5350f4ec46a083e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8190734579d36ce64871e6bf294a6c40"><td class="memItemLeft" align="right" valign="top"><a id="a8190734579d36ce64871e6bf294a6c40"></a>
+Pool&lt; std::vector&lt; zmq::message_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a8190734579d36ce64871e6bf294a6c40">message_pool</a></td></tr>
+<tr class="memdesc:a8190734579d36ce64871e6bf294a6c40"><td class="mdescLeft">&#160;</td><td class="mdescRight">pool to reuse old message vectors to save new instansiations <br /></td></tr>
+<tr class="separator:a8190734579d36ce64871e6bf294a6c40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This is a struct to place data you want your thread to access or exchange with it. The idea is the datainside is only used by the threa\d and so will be thread safe</p>
+<div class="textblock"><p>This is a struct to place data you want your thread to access or exchange with it. The idea is the data inside is only used by the thread and so will be thread safe. This is used for the two threads receiveing IDOD data and MPMT data.</p>
 <dl class="section rcs"><dt>Author</dt><dd>B.Richards </dd></dl>
-<dl class="section rcs"><dt>Date</dt><dd>2019/05/28 10:44:00 </dd></dl>
 </div><hr/>The documentation for this struct was generated from the following files:<ul>
 <li>UserTools/DataReceiver/<a class="el" href="DataReceiver_8h_source.html">DataReceiver.h</a></li>
 <li>UserTools/DataReceiver/DataReceiver.cpp</li>

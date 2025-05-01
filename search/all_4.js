@@ -1,14 +1,5 @@
 var searchData=
 [
-  ['mytool_11',['MyTool',['../classMyTool.html',1,'MyTool'],['../classMyTool.html#ad85b796bdd675ae22e69cf40fe7b6314',1,'MyTool::MyTool()']]],
-  ['mytooldynamicmultithread_12',['MyToolDynamicMultiThread',['../classMyToolDynamicMultiThread.html',1,'MyToolDynamicMultiThread'],['../classMyToolDynamicMultiThread.html#a5eec7239400c507754ba6218b3eb8d4a',1,'MyToolDynamicMultiThread::MyToolDynamicMultiThread()']]],
-  ['mytooldynamicmultithread_5fargs_13',['MyToolDynamicMultiThread_args',['../structMyToolDynamicMultiThread__args.html',1,'']]],
-  ['mytoolmultithread_14',['MyToolMultiThread',['../classMyToolMultiThread.html',1,'MyToolMultiThread'],['../classMyToolMultiThread.html#ac24f005c6da9c552871f6ff2672cf7f1',1,'MyToolMultiThread::MyToolMultiThread()']]],
-  ['mytoolmultithread_5fargs_15',['MyToolMultiThread_args',['../structMyToolMultiThread__args.html',1,'']]],
-  ['mytoolserviceadd_16',['MyToolServiceAdd',['../classMyToolServiceAdd.html',1,'MyToolServiceAdd'],['../classMyToolServiceAdd.html#a74ea27af61207cb9542f569e5669f013',1,'MyToolServiceAdd::MyToolServiceAdd()']]],
-  ['mytoolthread_17',['MyToolThread',['../classMyToolThread.html',1,'MyToolThread'],['../classMyToolThread.html#a66c6fc304a8d62436281598d988dd845',1,'MyToolThread::MyToolThread()']]],
-  ['mytoolthread_5fargs_18',['MyToolThread_args',['../structMyToolThread__args.html',1,'']]],
-  ['mytoolthread_5fargs_5fargs_19',['MyToolThread_args_args',['../structMyToolThread__args__args.html',1,'']]],
-  ['mytoolzmqmultithread_20',['MyToolZMQMultiThread',['../classMyToolZMQMultiThread.html',1,'MyToolZMQMultiThread'],['../classMyToolZMQMultiThread.html#a4036001006932887c7ed36eda1d1af50',1,'MyToolZMQMultiThread::MyToolZMQMultiThread()']]],
-  ['mytoolzmqmultithread_5fargs_21',['MyToolZMQMultiThread_args',['../structMyToolZMQMultiThread__args.html',1,'']]]
+  ['finalise_15',['Finalise',['../classDataReceiver.html#a261041ea7117cec561530d966331ba93',1,'DataReceiver::Finalise()'],['../classDummyTool.html#aacb5d0b9906a27c2b4bba4aae9bc093a',1,'DummyTool::Finalise()'],['../classMyTool.html#a060ec6356451aa335d0de41093c9992f',1,'MyTool::Finalise()'],['../classMyToolDynamicMultiThread.html#ab70e77b0fd90e50c5103ccfa0bfd6485',1,'MyToolDynamicMultiThread::Finalise()'],['../classMyToolMultiThread.html#a8f25561dc6a5daf8f4db85afecbb2c38',1,'MyToolMultiThread::Finalise()'],['../classMyToolServiceAdd.html#a7ce3453fe2e9e626f6b47a10aa2d1050',1,'MyToolServiceAdd::Finalise()'],['../classMyToolThread.html#aa51e385684efcb19f1c039b96653070e',1,'MyToolThread::Finalise()'],['../classMyToolZMQMultiThread.html#a4a7d1462aa1f6ea790be76161267547d',1,'MyToolZMQMultiThread::Finalise()']]],
+  ['framework_16',['Framework',['../md_UserTools_ImportedTools_README.html',1,'']]]
 ];

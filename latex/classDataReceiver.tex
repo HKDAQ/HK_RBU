@@ -27,13 +27,10 @@ bool \mbox{\hyperlink{classDataReceiver_a261041ea7117cec561530d966331ba93}{Final
 
 
 \doxysubsection{Detailed Description}
-This is a template for a Tool that produces a single thread that can be assigned a function seperate to the main thread. Please fill out the descripton and author information.
+This Tool receives data form the ID OD boards in one thread and MPMT baords in another thread. Jobs are then created from this data and passed to the central worker thread pool to process. The processing jobs decode the data and create reduced trigger data pushing thm both back to the central data store
 
 \begin{DoxyParagraph}{Author}
 B.\+Richards 
-\end{DoxyParagraph}
-\begin{DoxyParagraph}{Date}
-2019/05/28 10\+:44\+:00 
 \end{DoxyParagraph}
 
 

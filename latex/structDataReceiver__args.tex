@@ -14,57 +14,60 @@ Inheritance diagram for Data\+Receiver\+\_\+args\+:\begin{figure}[H]
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{structDataReceiver__args_a1c930a11581d31c7baa58234c948a495}\label{structDataReceiver__args_a1c930a11581d31c7baa58234c948a495}} 
-\mbox{\hyperlink{classDataModel}{Data\+Model}} $\ast$ {\bfseries m\+\_\+data}
-\item 
+\mbox{\hyperlink{classDataModel}{Data\+Model}} $\ast$ \mbox{\hyperlink{structDataReceiver__args_a1c930a11581d31c7baa58234c948a495}{m\+\_\+data}}
+\begin{DoxyCompactList}\small\item\em pointer to central data model to get agrigated electronics data collections \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structDataReceiver__args_a0871ab3d74af8400d048b1eb3a6d8aac}\label{structDataReceiver__args_a0871ab3d74af8400d048b1eb3a6d8aac}} 
-DAQUtilities $\ast$ {\bfseries m\+\_\+util}
-\item 
+DAQUtilities $\ast$ \mbox{\hyperlink{structDataReceiver__args_a0871ab3d74af8400d048b1eb3a6d8aac}{m\+\_\+util}}
+\begin{DoxyCompactList}\small\item\em pointer to utilities class to help with thread createion and deletion \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structDataReceiver__args_af63c8015bd50729237e0375d26121c6d}\label{structDataReceiver__args_af63c8015bd50729237e0375d26121c6d}} 
-zmq\+::socket\+\_\+t $\ast$ {\bfseries sock}
-\item 
+zmq\+::socket\+\_\+t $\ast$ \mbox{\hyperlink{structDataReceiver__args_af63c8015bd50729237e0375d26121c6d}{sock}}
+\begin{DoxyCompactList}\small\item\em socket pointer for receiving data form electronics \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structDataReceiver__args_ae99d32e44e028fb1932023276fa8fea2}\label{structDataReceiver__args_ae99d32e44e028fb1932023276fa8fea2}} 
-std\+::map$<$ std\+::string, Store $\ast$ $>$ {\bfseries connections}
-\item 
+std\+::map$<$ std\+::string, Store $\ast$ $>$ \mbox{\hyperlink{structDataReceiver__args_ae99d32e44e028fb1932023276fa8fea2}{connections}}
+\begin{DoxyCompactList}\small\item\em list of connections that have been made \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structDataReceiver__args_ad5d91fc4c54877a2b42a247a69f482dd}\label{structDataReceiver__args_ad5d91fc4c54877a2b42a247a69f482dd}} 
-zmq\+::pollitem\+\_\+t {\bfseries items} \mbox{[}1\mbox{]}
-\item 
+zmq\+::pollitem\+\_\+t \mbox{\hyperlink{structDataReceiver__args_ad5d91fc4c54877a2b42a247a69f482dd}{items}} \mbox{[}1\mbox{]}
+\begin{DoxyCompactList}\small\item\em poll list to avoid blocking \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structDataReceiver__args_a0e3f80ae781cdebe399478f770272b29}\label{structDataReceiver__args_a0e3f80ae781cdebe399478f770272b29}} 
-boost\+::posix\+\_\+time\+::time\+\_\+duration {\bfseries lapse}
-\item 
+boost\+::posix\+\_\+time\+::time\+\_\+duration \mbox{\hyperlink{structDataReceiver__args_a0e3f80ae781cdebe399478f770272b29}{lapse}}
+\begin{DoxyCompactList}\small\item\em duration to tell if need to update connections \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structDataReceiver__args_aa4a8c54abf63a6edec83ed0d5a31c65c}\label{structDataReceiver__args_aa4a8c54abf63a6edec83ed0d5a31c65c}} 
-boost\+::posix\+\_\+time\+::time\+\_\+duration {\bfseries period}
-\item 
+boost\+::posix\+\_\+time\+::time\+\_\+duration \mbox{\hyperlink{structDataReceiver__args_aa4a8c54abf63a6edec83ed0d5a31c65c}{period}}
+\begin{DoxyCompactList}\small\item\em period to check for new electroncis baord connections \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structDataReceiver__args_a2390a84511c3ff73d979062a2e92077d}\label{structDataReceiver__args_a2390a84511c3ff73d979062a2e92077d}} 
-boost\+::posix\+\_\+time\+::ptime {\bfseries last}
-\item 
+boost\+::posix\+\_\+time\+::ptime \mbox{\hyperlink{structDataReceiver__args_a2390a84511c3ff73d979062a2e92077d}{last}}
+\begin{DoxyCompactList}\small\item\em time of last search for new connections \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structDataReceiver__args_ad1bb638e3e83e172ce707329cd7fd517}\label{structDataReceiver__args_ad1bb638e3e83e172ce707329cd7fd517}} 
-std\+::string {\bfseries service}
-\item 
+std\+::string \mbox{\hyperlink{structDataReceiver__args_ad1bb638e3e83e172ce707329cd7fd517}{service}}
+\begin{DoxyCompactList}\small\item\em mane of service to look for when connecting to new services \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structDataReceiver__args_a0599bc651370ded13dfdbd56a8846699}\label{structDataReceiver__args_a0599bc651370ded13dfdbd56a8846699}} 
-std\+::vector$<$ zmq\+::message\+\_\+t $>$ $\ast$ {\bfseries messages}
-\item 
+std\+::vector$<$ zmq\+::message\+\_\+t $>$ $\ast$ \mbox{\hyperlink{structDataReceiver__args_a0599bc651370ded13dfdbd56a8846699}{messages}}
+\begin{DoxyCompactList}\small\item\em temporary pointer for received messages \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structDataReceiver__args_a2e3ef79a5996537a2beb7ddd8e304fdd}\label{structDataReceiver__args_a2e3ef79a5996537a2beb7ddd8e304fdd}} 
-uint16\+\_\+t {\bfseries num\+\_\+connections}
-\item 
+uint16\+\_\+t \mbox{\hyperlink{structDataReceiver__args_a2e3ef79a5996537a2beb7ddd8e304fdd}{num\+\_\+connections}}
+\begin{DoxyCompactList}\small\item\em current number of connections \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structDataReceiver__args_a546652e6861849016e198fb9791cd93c}\label{structDataReceiver__args_a546652e6861849016e198fb9791cd93c}} 
 Job $\ast$ {\bfseries tmp\+\_\+job}
 \item 
 \mbox{\Hypertarget{structDataReceiver__args_a54da43a974820b304488a26b8f852175}\label{structDataReceiver__args_a54da43a974820b304488a26b8f852175}} 
-\mbox{\hyperlink{structDataReceiverJob__args}{Data\+Receiver\+Job\+\_\+args}} $\ast$ {\bfseries tmp\+\_\+data}
-\item 
+\mbox{\hyperlink{structDataReceiverJob__args}{Data\+Receiver\+Job\+\_\+args}} $\ast$ \mbox{\hyperlink{structDataReceiver__args_a54da43a974820b304488a26b8f852175}{tmp\+\_\+data}}
+\begin{DoxyCompactList}\small\item\em temporary point for making job data \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structDataReceiver__args_a8f6c3b95bd6c5f55cfaf4ac8a4141824}\label{structDataReceiver__args_a8f6c3b95bd6c5f55cfaf4ac8a4141824}} 
-std\+::string {\bfseries data\+\_\+port}
-\end{DoxyCompactItemize}
+std\+::string \mbox{\hyperlink{structDataReceiver__args_a8f6c3b95bd6c5f55cfaf4ac8a4141824}{data\+\_\+port}}
+\begin{DoxyCompactList}\small\item\em port to connect to new electronics baords on \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structDataReceiver__args_ac24191f4189b835c5350f4ec46a083e2}\label{structDataReceiver__args_ac24191f4189b835c5350f4ec46a083e2}} 
+Pool$<$ Job $>$ \mbox{\hyperlink{structDataReceiver__args_ac24191f4189b835c5350f4ec46a083e2}{job\+\_\+pool}}
+\begin{DoxyCompactList}\small\item\em pool to reuse old jobs to save new instansiations \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structDataReceiver__args_a8190734579d36ce64871e6bf294a6c40}\label{structDataReceiver__args_a8190734579d36ce64871e6bf294a6c40}} 
+Pool$<$ std\+::vector$<$ zmq\+::message\+\_\+t $>$ $>$ \mbox{\hyperlink{structDataReceiver__args_a8190734579d36ce64871e6bf294a6c40}{message\+\_\+pool}}
+\begin{DoxyCompactList}\small\item\em pool to reuse old message vectors to save new instansiations \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-This is a struct to place data you want your thread to access or exchange with it. The idea is the datainside is only used by the threa\textbackslash{}d and so will be thread safe
+This is a struct to place data you want your thread to access or exchange with it. The idea is the data inside is only used by the thread and so will be thread safe. This is used for the two threads receiveing IDOD data and MPMT data.
 
 \begin{DoxyParagraph}{Author}
 B.\+Richards 
-\end{DoxyParagraph}
-\begin{DoxyParagraph}{Date}
-2019/05/28 10\+:44\+:00 
 \end{DoxyParagraph}
 
 

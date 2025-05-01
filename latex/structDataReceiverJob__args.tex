@@ -14,21 +14,49 @@ Inheritance diagram for Data\+Receiver\+Job\+\_\+args\+:\begin{figure}[H]
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{structDataReceiverJob__args_a2744f56f22acd3e7a89615196c57bd3d}\label{structDataReceiverJob__args_a2744f56f22acd3e7a89615196c57bd3d}} 
-\mbox{\hyperlink{classDataModel}{Data\+Model}} $\ast$ {\bfseries m\+\_\+data}
-\item 
+\mbox{\hyperlink{classDataModel}{Data\+Model}} $\ast$ \mbox{\hyperlink{structDataReceiverJob__args_a2744f56f22acd3e7a89615196c57bd3d}{m\+\_\+data}}
+\begin{DoxyCompactList}\small\item\em pointer to central data model to get agrigated electronics data collections \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structDataReceiverJob__args_acd68bb5af342627fb5979756ca830dd7}\label{structDataReceiverJob__args_acd68bb5af342627fb5979756ca830dd7}} 
-std\+::vector$<$ zmq\+::message\+\_\+t $>$ $\ast$ {\bfseries messages}
-\end{DoxyCompactItemize}
+std\+::vector$<$ zmq\+::message\+\_\+t $>$ $\ast$ \mbox{\hyperlink{structDataReceiverJob__args_acd68bb5af342627fb5979756ca830dd7}{messages}}
+\begin{DoxyCompactList}\small\item\em vector of input messages from electronics to be processed \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structDataReceiverJob__args_adb03ba2e710dec0db753067ec42df1a8}\label{structDataReceiverJob__args_adb03ba2e710dec0db753067ec42df1a8}} 
+Pool$<$ std\+::vector$<$ zmq\+::message\+\_\+t $>$ $>$ $\ast$ \mbox{\hyperlink{structDataReceiverJob__args_adb03ba2e710dec0db753067ec42df1a8}{message\+\_\+pool}}
+\begin{DoxyCompactList}\small\item\em message pool to return used message vectors to to save reallocation \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structDataReceiverJob__args_ad5ec28e6c8573d84d148f5e9f2a9a595}\label{structDataReceiverJob__args_ad5ec28e6c8573d84d148f5e9f2a9a595}} 
+\mbox{\hyperlink{classRAWDAQHeader}{RAWDAQHeader}} $\ast$ \mbox{\hyperlink{structDataReceiverJob__args_ad5ec28e6c8573d84d148f5e9f2a9a595}{daq\+\_\+header}}
+\begin{DoxyCompactList}\small\item\em pointer to be assigned to daq header message when decoded \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structDataReceiverJob__args_af300f1b41178532f2a25b442f551529e}\label{structDataReceiverJob__args_af300f1b41178532f2a25b442f551529e}} 
+uint32\+\_\+t $\ast$ \mbox{\hyperlink{structDataReceiverJob__args_af300f1b41178532f2a25b442f551529e}{words}}
+\begin{DoxyCompactList}\small\item\em pointer to array of words in the electronics messages \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structDataReceiverJob__args_a946050ca574a15c82fffb3fc7ef6302d}\label{structDataReceiverJob__args_a946050ca574a15c82fffb3fc7ef6302d}} 
+std\+::unordered\+\_\+map$<$ uint32\+\_\+t, std\+::vector$<$ uint32\+\_\+t $>$ $>$ \mbox{\hyperlink{structDataReceiverJob__args_a946050ca574a15c82fffb3fc7ef6302d}{collections}}
+\begin{DoxyCompactList}\small\item\em temporary storage for $\sim$16ms time slices of data words before being passed to central storage ~\newline
+ \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structDataReceiverJob__args_aaa961a862a61d3e6d0a77c6696996895}\label{structDataReceiverJob__args_aaa961a862a61d3e6d0a77c6696996895}} 
+uint32\+\_\+t \mbox{\hyperlink{structDataReceiverJob__args_aaa961a862a61d3e6d0a77c6696996895}{bin}} =0
+\begin{DoxyCompactList}\small\item\em time bin of data object being decoded \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structDataReceiverJob__args_a312ec00fcd64b34f063b0c5fa2fdcc26}\label{structDataReceiverJob__args_a312ec00fcd64b34f063b0c5fa2fdcc26}} 
+uint32\+\_\+t \mbox{\hyperlink{structDataReceiverJob__args_a312ec00fcd64b34f063b0c5fa2fdcc26}{current\+\_\+bin}} =0
+\begin{DoxyCompactList}\small\item\em time bin of last processed data object \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structDataReceiverJob__args_ac41c3b805af15d706b18c5335872a9e2}\label{structDataReceiverJob__args_ac41c3b805af15d706b18c5335872a9e2}} 
+size\+\_\+t \mbox{\hyperlink{structDataReceiverJob__args_ac41c3b805af15d706b18c5335872a9e2}{start\+\_\+pos}} =0
+\begin{DoxyCompactList}\small\item\em position of the first data object in words that hasnt yet been added to collections \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structDataReceiverJob__args_aa47b64da93c92d3f1ebf16d2300874fa}\label{structDataReceiverJob__args_aa47b64da93c92d3f1ebf16d2300874fa}} 
+\mbox{\hyperlink{classRAWIDODHit}{RAWIDODHit}} $\ast$ \mbox{\hyperlink{structDataReceiverJob__args_aa47b64da93c92d3f1ebf16d2300874fa}{tmp\+\_\+hit}} =0
+\begin{DoxyCompactList}\small\item\em pointer for use in decoding hit words \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structDataReceiverJob__args_aa35aee619af231768079879396803d4b}\label{structDataReceiverJob__args_aa35aee619af231768079879396803d4b}} 
+size\+\_\+t \mbox{\hyperlink{structDataReceiverJob__args_aa35aee619af231768079879396803d4b}{current\+\_\+word}} =0
+\begin{DoxyCompactList}\small\item\em current word being processed \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structDataReceiverJob__args_adc387edcb91a81f4eea65a34a84a9936}\label{structDataReceiverJob__args_adc387edcb91a81f4eea65a34a84a9936}} 
+uint32\+\_\+t \mbox{\hyperlink{structDataReceiverJob__args_adc387edcb91a81f4eea65a34a84a9936}{header}} \mbox{[}2\mbox{]}
+\begin{DoxyCompactList}\small\item\em holder for header words \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-This is a struct to place data you want your thread to access or exchange with it. The idea is the datainside is only used by the threa\textbackslash{}d and so will be thread safe
+This is a struct to place data you want your thread to access or exchange with it. The idea is the data inside is only used by the thread and so will be thread safe. this data will be used by the processing job which is run on individual output messages form the elctronics.
 
 \begin{DoxyParagraph}{Author}
 B.\+Richards 
-\end{DoxyParagraph}
-\begin{DoxyParagraph}{Date}
-2019/05/28 10\+:44\+:00 
 \end{DoxyParagraph}
 
 
