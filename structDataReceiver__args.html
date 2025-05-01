@@ -80,15 +80,15 @@ Inheritance diagram for DataReceiver_args:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a1c930a11581d31c7baa58234c948a495"><td class="memItemLeft" align="right" valign="top"><a id="a1c930a11581d31c7baa58234c948a495"></a>
-<a class="el" href="classDataModel.html">DataModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a1c930a11581d31c7baa58234c948a495">m_data</a></td></tr>
+<a class="el" href="classDataModel.html">DataModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a1c930a11581d31c7baa58234c948a495">m_data</a> = 0</td></tr>
 <tr class="memdesc:a1c930a11581d31c7baa58234c948a495"><td class="mdescLeft">&#160;</td><td class="mdescRight">pointer to central data model to get agrigated electronics data collections <br /></td></tr>
 <tr class="separator:a1c930a11581d31c7baa58234c948a495"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0871ab3d74af8400d048b1eb3a6d8aac"><td class="memItemLeft" align="right" valign="top"><a id="a0871ab3d74af8400d048b1eb3a6d8aac"></a>
-DAQUtilities *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a0871ab3d74af8400d048b1eb3a6d8aac">m_util</a></td></tr>
+DAQUtilities *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a0871ab3d74af8400d048b1eb3a6d8aac">m_util</a> = 0</td></tr>
 <tr class="memdesc:a0871ab3d74af8400d048b1eb3a6d8aac"><td class="mdescLeft">&#160;</td><td class="mdescRight">pointer to utilities class to help with thread createion and deletion <br /></td></tr>
 <tr class="separator:a0871ab3d74af8400d048b1eb3a6d8aac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af63c8015bd50729237e0375d26121c6d"><td class="memItemLeft" align="right" valign="top"><a id="af63c8015bd50729237e0375d26121c6d"></a>
-zmq::socket_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#af63c8015bd50729237e0375d26121c6d">sock</a></td></tr>
+zmq::socket_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#af63c8015bd50729237e0375d26121c6d">sock</a> = 0</td></tr>
 <tr class="memdesc:af63c8015bd50729237e0375d26121c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">socket pointer for receiving data form electronics <br /></td></tr>
 <tr class="separator:af63c8015bd50729237e0375d26121c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae99d32e44e028fb1932023276fa8fea2"><td class="memItemLeft" align="right" valign="top"><a id="ae99d32e44e028fb1932023276fa8fea2"></a>
@@ -112,26 +112,26 @@ boost::posix_time::ptime&#160;</td><td class="memItemRight" valign="bottom"><a c
 <tr class="memdesc:a2390a84511c3ff73d979062a2e92077d"><td class="mdescLeft">&#160;</td><td class="mdescRight">time of last search for new connections <br /></td></tr>
 <tr class="separator:a2390a84511c3ff73d979062a2e92077d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1bb638e3e83e172ce707329cd7fd517"><td class="memItemLeft" align="right" valign="top"><a id="ad1bb638e3e83e172ce707329cd7fd517"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#ad1bb638e3e83e172ce707329cd7fd517">service</a></td></tr>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#ad1bb638e3e83e172ce707329cd7fd517">service</a> = &quot;&quot;</td></tr>
 <tr class="memdesc:ad1bb638e3e83e172ce707329cd7fd517"><td class="mdescLeft">&#160;</td><td class="mdescRight">mane of service to look for when connecting to new services <br /></td></tr>
 <tr class="separator:ad1bb638e3e83e172ce707329cd7fd517"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0599bc651370ded13dfdbd56a8846699"><td class="memItemLeft" align="right" valign="top"><a id="a0599bc651370ded13dfdbd56a8846699"></a>
-std::vector&lt; zmq::message_t &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a0599bc651370ded13dfdbd56a8846699">messages</a></td></tr>
+std::vector&lt; zmq::message_t &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a0599bc651370ded13dfdbd56a8846699">messages</a> = 0</td></tr>
 <tr class="memdesc:a0599bc651370ded13dfdbd56a8846699"><td class="mdescLeft">&#160;</td><td class="mdescRight">temporary pointer for received messages <br /></td></tr>
 <tr class="separator:a0599bc651370ded13dfdbd56a8846699"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e3ef79a5996537a2beb7ddd8e304fdd"><td class="memItemLeft" align="right" valign="top"><a id="a2e3ef79a5996537a2beb7ddd8e304fdd"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a2e3ef79a5996537a2beb7ddd8e304fdd">num_connections</a></td></tr>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a2e3ef79a5996537a2beb7ddd8e304fdd">num_connections</a> = 0</td></tr>
 <tr class="memdesc:a2e3ef79a5996537a2beb7ddd8e304fdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">current number of connections <br /></td></tr>
 <tr class="separator:a2e3ef79a5996537a2beb7ddd8e304fdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a546652e6861849016e198fb9791cd93c"><td class="memItemLeft" align="right" valign="top"><a id="a546652e6861849016e198fb9791cd93c"></a>
-Job *&#160;</td><td class="memItemRight" valign="bottom"><b>tmp_job</b></td></tr>
+Job *&#160;</td><td class="memItemRight" valign="bottom"><b>tmp_job</b> = 0</td></tr>
 <tr class="separator:a546652e6861849016e198fb9791cd93c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54da43a974820b304488a26b8f852175"><td class="memItemLeft" align="right" valign="top"><a id="a54da43a974820b304488a26b8f852175"></a>
-<a class="el" href="structDataReceiverJob__args.html">DataReceiverJob_args</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a54da43a974820b304488a26b8f852175">tmp_data</a></td></tr>
+<a class="el" href="structDataReceiverJob__args.html">DataReceiverJob_args</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a54da43a974820b304488a26b8f852175">tmp_data</a> = 0</td></tr>
 <tr class="memdesc:a54da43a974820b304488a26b8f852175"><td class="mdescLeft">&#160;</td><td class="mdescRight">temporary point for making job data <br /></td></tr>
 <tr class="separator:a54da43a974820b304488a26b8f852175"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f6c3b95bd6c5f55cfaf4ac8a4141824"><td class="memItemLeft" align="right" valign="top"><a id="a8f6c3b95bd6c5f55cfaf4ac8a4141824"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a8f6c3b95bd6c5f55cfaf4ac8a4141824">data_port</a></td></tr>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiver__args.html#a8f6c3b95bd6c5f55cfaf4ac8a4141824">data_port</a> = &quot;&quot;</td></tr>
 <tr class="memdesc:a8f6c3b95bd6c5f55cfaf4ac8a4141824"><td class="mdescLeft">&#160;</td><td class="mdescRight">port to connect to new electronics baords on <br /></td></tr>
 <tr class="separator:a8f6c3b95bd6c5f55cfaf4ac8a4141824"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac24191f4189b835c5350f4ec46a083e2"><td class="memItemLeft" align="right" valign="top"><a id="ac24191f4189b835c5350f4ec46a083e2"></a>

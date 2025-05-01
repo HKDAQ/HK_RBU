@@ -80,7 +80,7 @@ Inheritance diagram for DataReceiverJob_args:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a2744f56f22acd3e7a89615196c57bd3d"><td class="memItemLeft" align="right" valign="top"><a id="a2744f56f22acd3e7a89615196c57bd3d"></a>
-<a class="el" href="classDataModel.html">DataModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#a2744f56f22acd3e7a89615196c57bd3d">m_data</a></td></tr>
+<a class="el" href="classDataModel.html">DataModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#a2744f56f22acd3e7a89615196c57bd3d">m_data</a> = 0</td></tr>
 <tr class="memdesc:a2744f56f22acd3e7a89615196c57bd3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">pointer to central data model to get agrigated electronics data collections <br /></td></tr>
 <tr class="separator:a2744f56f22acd3e7a89615196c57bd3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd68bb5af342627fb5979756ca830dd7"><td class="memItemLeft" align="right" valign="top"><a id="acd68bb5af342627fb5979756ca830dd7"></a>
@@ -92,11 +92,11 @@ Pool&lt; std::vector&lt; zmq::message_t &gt; &gt; *&#160;</td><td class="memItem
 <tr class="memdesc:adb03ba2e710dec0db753067ec42df1a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">message pool to return used message vectors to to save reallocation <br /></td></tr>
 <tr class="separator:adb03ba2e710dec0db753067ec42df1a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5ec28e6c8573d84d148f5e9f2a9a595"><td class="memItemLeft" align="right" valign="top"><a id="ad5ec28e6c8573d84d148f5e9f2a9a595"></a>
-<a class="el" href="classRAWDAQHeader.html">RAWDAQHeader</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#ad5ec28e6c8573d84d148f5e9f2a9a595">daq_header</a></td></tr>
+<a class="el" href="classRAWDAQHeader.html">RAWDAQHeader</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#ad5ec28e6c8573d84d148f5e9f2a9a595">daq_header</a> = 0</td></tr>
 <tr class="memdesc:ad5ec28e6c8573d84d148f5e9f2a9a595"><td class="mdescLeft">&#160;</td><td class="mdescRight">pointer to be assigned to daq header message when decoded <br /></td></tr>
 <tr class="separator:ad5ec28e6c8573d84d148f5e9f2a9a595"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af300f1b41178532f2a25b442f551529e"><td class="memItemLeft" align="right" valign="top"><a id="af300f1b41178532f2a25b442f551529e"></a>
-uint32_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#af300f1b41178532f2a25b442f551529e">words</a></td></tr>
+uint32_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#af300f1b41178532f2a25b442f551529e">words</a> = 0</td></tr>
 <tr class="memdesc:af300f1b41178532f2a25b442f551529e"><td class="mdescLeft">&#160;</td><td class="mdescRight">pointer to array of words in the electronics messages <br /></td></tr>
 <tr class="separator:af300f1b41178532f2a25b442f551529e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a946050ca574a15c82fffb3fc7ef6302d"><td class="memItemLeft" align="right" valign="top"><a id="a946050ca574a15c82fffb3fc7ef6302d"></a>
@@ -105,27 +105,27 @@ std::unordered_map&lt; uint32_t, std::vector&lt; uint32_t &gt; &gt;&#160;</td><t
  <br /></td></tr>
 <tr class="separator:a946050ca574a15c82fffb3fc7ef6302d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa961a862a61d3e6d0a77c6696996895"><td class="memItemLeft" align="right" valign="top"><a id="aaa961a862a61d3e6d0a77c6696996895"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#aaa961a862a61d3e6d0a77c6696996895">bin</a> =0</td></tr>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#aaa961a862a61d3e6d0a77c6696996895">bin</a> = 0</td></tr>
 <tr class="memdesc:aaa961a862a61d3e6d0a77c6696996895"><td class="mdescLeft">&#160;</td><td class="mdescRight">time bin of data object being decoded <br /></td></tr>
 <tr class="separator:aaa961a862a61d3e6d0a77c6696996895"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a312ec00fcd64b34f063b0c5fa2fdcc26"><td class="memItemLeft" align="right" valign="top"><a id="a312ec00fcd64b34f063b0c5fa2fdcc26"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#a312ec00fcd64b34f063b0c5fa2fdcc26">current_bin</a> =0</td></tr>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#a312ec00fcd64b34f063b0c5fa2fdcc26">current_bin</a> = 0</td></tr>
 <tr class="memdesc:a312ec00fcd64b34f063b0c5fa2fdcc26"><td class="mdescLeft">&#160;</td><td class="mdescRight">time bin of last processed data object <br /></td></tr>
 <tr class="separator:a312ec00fcd64b34f063b0c5fa2fdcc26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac41c3b805af15d706b18c5335872a9e2"><td class="memItemLeft" align="right" valign="top"><a id="ac41c3b805af15d706b18c5335872a9e2"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#ac41c3b805af15d706b18c5335872a9e2">start_pos</a> =0</td></tr>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#ac41c3b805af15d706b18c5335872a9e2">start_pos</a> = 0</td></tr>
 <tr class="memdesc:ac41c3b805af15d706b18c5335872a9e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">position of the first data object in words that hasnt yet been added to collections <br /></td></tr>
 <tr class="separator:ac41c3b805af15d706b18c5335872a9e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa47b64da93c92d3f1ebf16d2300874fa"><td class="memItemLeft" align="right" valign="top"><a id="aa47b64da93c92d3f1ebf16d2300874fa"></a>
-<a class="el" href="classRAWIDODHit.html">RAWIDODHit</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#aa47b64da93c92d3f1ebf16d2300874fa">tmp_hit</a> =0</td></tr>
+<a class="el" href="classRAWIDODHit.html">RAWIDODHit</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#aa47b64da93c92d3f1ebf16d2300874fa">tmp_hit</a> = 0</td></tr>
 <tr class="memdesc:aa47b64da93c92d3f1ebf16d2300874fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">pointer for use in decoding hit words <br /></td></tr>
 <tr class="separator:aa47b64da93c92d3f1ebf16d2300874fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa35aee619af231768079879396803d4b"><td class="memItemLeft" align="right" valign="top"><a id="aa35aee619af231768079879396803d4b"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#aa35aee619af231768079879396803d4b">current_word</a> =0</td></tr>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#aa35aee619af231768079879396803d4b">current_word</a> = 0</td></tr>
 <tr class="memdesc:aa35aee619af231768079879396803d4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">current word being processed <br /></td></tr>
 <tr class="separator:aa35aee619af231768079879396803d4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc387edcb91a81f4eea65a34a84a9936"><td class="memItemLeft" align="right" valign="top"><a id="adc387edcb91a81f4eea65a34a84a9936"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#adc387edcb91a81f4eea65a34a84a9936">header</a> [2]</td></tr>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#adc387edcb91a81f4eea65a34a84a9936">header</a> [2] ={0,0}</td></tr>
 <tr class="memdesc:adc387edcb91a81f4eea65a34a84a9936"><td class="mdescLeft">&#160;</td><td class="mdescRight">holder for header words <br /></td></tr>
 <tr class="separator:adc387edcb91a81f4eea65a34a84a9936"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
