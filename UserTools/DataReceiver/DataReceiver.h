@@ -66,7 +66,8 @@ struct DataReceiver_args:Thread_args{
   std::string data_port = ""; ///< port to connect to new electronics baords on
   Pool<Job> job_pool; ///< pool to reuse old jobs to save new instansiations
   Pool<std::vector<zmq::message_t> > message_pool; ///< pool to reuse old message vectors to save new instansiations
-
+  bool return_check = true; ///< variable for checking retuns values
+  zmq::message_t reply; ///< mesasge to send electronics reply 
 };
 
 

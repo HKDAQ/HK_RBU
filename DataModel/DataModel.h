@@ -46,6 +46,9 @@ class DataModel : public DAQDataModelBase {
   //TTree* GetTTree(std::string name);
   //void AddTTree(std::string name,TTree *tree);
   //void DeleteTTree(std::string name,TTree *tree);
+
+  bool running = false;
+
   JobQueue job_queue;
 
   unsigned int thread_cap;
@@ -53,6 +56,8 @@ class DataModel : public DAQDataModelBase {
 
   Store monitoring_store;
   std::mutex monitoring_store_mtx;
+
+
   
  private:
   

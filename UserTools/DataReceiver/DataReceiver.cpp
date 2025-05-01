@@ -8,7 +8,11 @@ DataReceiverJob_args::~DataReceiverJob_args(){
 
 }
 
-DataReceiver_args::DataReceiver_args():Thread_args(){}
+DataReceiver_args::DataReceiver_args():Thread_args(){
+
+  reply.rebuild(4);
+
+}
 
 DataReceiver_args::~DataReceiver_args(){
 
@@ -98,14 +102,14 @@ void DataReceiver::Thread(Thread_args* arg){
     //receiving data
     args->messages = args->message_pool.GetNew();
     args->messages->emplace_back();
-    args->sock->recv(&args->messages->back()); //TODO BEN: need to check socket returns 
+    args->return_check = args->sock->recv(&args->messages->back()); 
     while(args->messages->back().more()){
       args->messages->emplace_back();
-      args->sock->recv(&args->messages->back()); 
+      args->return_check = args->return_check && args->sock->recv(&args->messages->back()); 
     }
     
     // check if number of messages is correct. data from electroncis should be threee messages (identity, header, data) if not throw it away
-    if(args->messages->size()!=3){ 
+    if(args->messages->size()!=3 || args->return_check){ 
       args->messages->clear();
       args->message_pool.Add(args->messages); // adding message vector back to pool rather than deleting to save instansiations
       args->messages = 0;
@@ -117,10 +121,15 @@ void DataReceiver::Thread(Thread_args* arg){
     }
     
     // sending reply to electroncs which is the message number, which is the first word of the data message
-    zmq::message_t reply(4);
-    memcpy(reply.data(), args->messages->at(1).data(), reply.size());
-    args->sock->send(args->messages->at(0), ZMQ_SNDMORE); /// TODO BEN: need to add checking probablly a poll incase sender dies
-    args->sock->send(reply); //TODO BEN: need to check returns
+    memcpy(args->reply.data(), args->messages->at(1).data(), args->reply.size());
+    args->return_check = args->sock->send(args->messages->at(0), ZMQ_SNDMORE);
+    args->return_check = args->return_check && args->sock->send(args->reply);
+
+    if(!args->return_check){
+
+      //TODO BEN: thow warning
+      //possibly also delete the data and return??? electronics should send it again and then you will ahve a duplicate if not
+    }
     
 
 
@@ -171,11 +180,23 @@ void DataReceiver::CreateThreads(){
     args.at(i)->m_util = m_util;
     
     args.at(i)->sock = new zmq::socket_t(*(m_data->context), ZMQ_ROUTER);
-    //TODO BEN: socket ops need adding
+    args.at(i)->sock->setsockopt(ZMQ_RCVHWM, 20000);
+    args.at(i)->sock->setsockopt(ZMQ_LINGER, 100);
+    args.at(i)->sock->setsockopt(ZMQ_BACKLOG, 5000);
+    args.at(i)->sock->setsockopt(ZMQ_RCVTIMEO, 1000);
+    args.at(i)->sock->setsockopt(ZMQ_SNDTIMEO, 200);
+    args.at(i)->sock->setsockopt(ZMQ_IMMEDIATE, 1);
+    args.at(i)->sock->setsockopt(ZMQ_ROUTER_MANDATORY,1);
+    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE, 1);
+    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE_IDLE, 5);
+    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE_CNT, 12);
+    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE_INTVL, 5);
+
     args.at(i)->items[0].socket=*args.at(i)->sock;
     args.at(i)->items[0].fd=0;
     args.at(i)->items[0].events=ZMQ_POLLIN;
     args.at(i)->items[0].revents=0;
+
     args.at(i)->service="ID/OD";
     if(i==1) args.at(i)->service="MPMT";
     args.at(i)->num_connections=0;
@@ -198,7 +219,32 @@ void DataReceiver::CreateThreads(){
 void DataReceiver::LoadConfig(){
 
   if(!m_variables.Get("verbose",m_verbose)) m_verbose=1;
+
   //TODO BEN: add more dynamic variables. need to think about what todo if not set
+    args.at(i)->sock->setsockopt(ZMQ_RCVHWM, 20000);
+    args.at(i)->sock->setsockopt(ZMQ_LINGER, 100);
+    args.at(i)->sock->setsockopt(ZMQ_BACKLOG, 5000);
+    args.at(i)->sock->setsockopt(ZMQ_RCVTIMEO, 1000);
+    args.at(i)->sock->setsockopt(ZMQ_SNDTIMEO, 200);
+    args.at(i)->sock->setsockopt(ZMQ_IMMEDIATE, 1);
+    args.at(i)->sock->setsockopt(ZMQ_ROUTER_MANDATORY,1);
+    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE, 1);
+    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE_IDLE, 5);
+    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE_CNT, 12);
+    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE_INTVL, 5);
+
+    args.at(i)->items[0].socket=*args.at(i)->sock;
+    args.at(i)->items[0].fd=0;
+    args.at(i)->items[0].events=ZMQ_POLLIN;
+    args.at(i)->items[0].revents=0;
+
+    args.at(i)->service="ID/OD";
+    if(i==1) args.at(i)->service="MPMT";
+    args.at(i)->num_connections=0;
+    args.at(i)->messages=0;
+    args.at(i)->data_port="6666";  //TODO BEN: this is needs tobe a dynamic variable
+    
+    args.at(i)->period=boost::posix_time::seconds(200);  //TODO BEN: this is needs tobe a dynamic variable
 
   return;
 }
@@ -220,7 +266,7 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
 
   // making special header packet to store cardid and first sync
   args->header[1] = 0b01000000111111110000000000000000;
-  args->header[2] = 0;   //fix these
+  args->header[2] = 0;   //TODO BEN: fix these
 
   
   args->daq_header = reinterpret_cast<RAWDAQHeader*>(args->messages->at(1).data()); //decode DAQheader
@@ -252,7 +298,7 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
       break;
     
    
-    case 0b10 : //sync data objkect
+    case 0b10 : //sync data object
       args->bin = RAWIDODSync::GetCounter(&args->words[args->current_word]) >> 10;
       if(args->collections.count(args->bin)==0) args->collections[args->bin].insert(args->collections[args->bin].end(), &args->header[0], &args->header[0] + 2);
       if(args->bin!=args->current_bin){
