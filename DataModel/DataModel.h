@@ -19,7 +19,6 @@
 #include <RAWIDODSync.h>
 #include <RAWIDODError.h>
 #include <RAWIDODSpecial.h>
-#include <IDODCollection.h>
 #include <DAQHeader.h>
 #include <zmq.hpp>
 #include <mutex>

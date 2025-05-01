@@ -22,19 +22,19 @@ struct DataReceiverJob_args:Thread_args{
 
   DataReceiverJob_args();
   ~DataReceiverJob_args();
-  DataModel* m_data; ///< pointer to central data model to get agrigated electronics data collections
+  DataModel* m_data = 0; ///< pointer to central data model to get agrigated electronics data collections
   std::vector<zmq::message_t>* messages; ///< vector of input messages from electronics to be processed
   Pool<std::vector<zmq::message_t> >* message_pool; ///< message pool to return used message vectors to to save reallocation
   
-  RAWDAQHeader* daq_header; ///< pointer to be assigned to daq header message when decoded
-  uint32_t* words; ///< pointer to array of words in the electronics messages
+  RAWDAQHeader* daq_header = 0; ///< pointer to be assigned to daq header message when decoded
+  uint32_t* words = 0; ///< pointer to array of words in the electronics messages
   std::unordered_map<uint32_t, std::vector<uint32_t> > collections; ///< temporary storage for ~16ms time slices of data words before being passed to central storage  
-  uint32_t bin=0; ///< time bin of data object being decoded
-  uint32_t current_bin=0; ///< time bin of last processed data object
-  size_t start_pos=0; ///< position of the first data object in words that hasnt yet been added to collections
-  RAWIDODHit* tmp_hit=0; ///< pointer for use in decoding hit words
-  size_t current_word =0; ///< current word being processed
-  uint32_t header[2]; ///< holder for header words
+  uint32_t bin = 0; ///< time bin of data object being decoded
+  uint32_t current_bin = 0; ///< time bin of last processed data object
+  size_t start_pos = 0; ///< position of the first data object in words that hasnt yet been added to collections
+  RAWIDODHit* tmp_hit = 0; ///< pointer for use in decoding hit words
+  size_t current_word = 0; ///< current word being processed
+  uint32_t header[2] ={0,0}; ///< holder for header words
 
 };
 
@@ -50,20 +50,20 @@ struct DataReceiver_args:Thread_args{
 
   DataReceiver_args();
   ~DataReceiver_args();
-  DataModel* m_data; ///< pointer to central data model to get agrigated electronics data collections
-  DAQUtilities* m_util; ///< pointer to utilities class to help with thread createion and deletion
-  zmq::socket_t* sock; ///< socket pointer for receiving data form electronics
+  DataModel* m_data = 0; ///< pointer to central data model to get agrigated electronics data collections
+  DAQUtilities* m_util = 0; ///< pointer to utilities class to help with thread createion and deletion
+  zmq::socket_t* sock = 0; ///< socket pointer for receiving data form electronics
   std::map<std::string,Store*> connections; ///< list of connections that have been made
   zmq::pollitem_t items[1]; ///< poll list to avoid blocking
   boost::posix_time::time_duration lapse; ///< duration to tell if need to update connections
   boost::posix_time::time_duration period; ///< period to check for new electroncis baord connections 
   boost::posix_time::ptime last; ///< time of last search for new connections
-  std::string service; ///< mane of service to look for when connecting to new services
-  std::vector<zmq::message_t>* messages; ///< temporary pointer for received messages
-  uint16_t num_connections; ///< current number of connections
-  Job* tmp_job; //< temprary pointer for creating jobs
-  DataReceiverJob_args* tmp_data; ///< temporary point for making job data
-  std::string data_port; ///< port to connect to new electronics baords on
+  std::string service = ""; ///< mane of service to look for when connecting to new services
+  std::vector<zmq::message_t>* messages = 0; ///< temporary pointer for received messages
+  uint16_t num_connections = 0; ///< current number of connections
+  Job* tmp_job = 0; //< temprary pointer for creating jobs
+  DataReceiverJob_args* tmp_data= 0 ; ///< temporary point for making job data
+  std::string data_port = ""; ///< port to connect to new electronics baords on
   Pool<Job> job_pool; ///< pool to reuse old jobs to save new instansiations
   Pool<std::vector<zmq::message_t> > message_pool; ///< pool to reuse old message vectors to save new instansiations
 

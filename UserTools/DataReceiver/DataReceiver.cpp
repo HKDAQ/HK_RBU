@@ -1,11 +1,6 @@
 #include "DataReceiver.h"
 
-DataReceiverJob_args::DataReceiverJob_args():Thread_args(){
-
-  m_data=0;
-  message_pool=0;
-
-}
+DataReceiverJob_args::DataReceiverJob_args():Thread_args(){}
 
 DataReceiverJob_args::~DataReceiverJob_args(){
 
@@ -13,16 +8,7 @@ DataReceiverJob_args::~DataReceiverJob_args(){
 
 }
 
-DataReceiver_args::DataReceiver_args():Thread_args(){
-
-  m_data=0;
-  m_util=0;
-  sock=0;
-  messages=0;
-  tmp_job=0;
-  tmp_data=0;
-
-}
+DataReceiver_args::DataReceiver_args():Thread_args(){}
 
 DataReceiver_args::~DataReceiver_args(){
 
