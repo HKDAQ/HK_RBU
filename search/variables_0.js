@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bin_92',['bin',['../structDataReceiverJob__args.html#aaa961a862a61d3e6d0a77c6696996895',1,'DataReceiverJob_args']]]
+  ['bin_96',['bin',['../structDataReceiverJob__args.html#a6d085bc653f3b4f74688bb049c1a210a',1,'DataReceiverJob_args']]]
 ];

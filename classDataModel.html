@@ -90,6 +90,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a0d269f90e9baeb1bdcb446b95a477ef0"><td class="memItemLeft" align="right" valign="top"><a id="a0d269f90e9baeb1bdcb446b95a477ef0"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>running</b> = false</td></tr>
 <tr class="separator:a0d269f90e9baeb1bdcb446b95a477ef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f78a51e1a1cb2bc4d9038382486e7c8"><td class="memItemLeft" align="right" valign="top"><a id="a7f78a51e1a1cb2bc4d9038382486e7c8"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>current_counter</b> = 0</td></tr>
+<tr class="separator:a7f78a51e1a1cb2bc4d9038382486e7c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b2dc64a0190ef8411fdb3ab3abc34bd"><td class="memItemLeft" align="right" valign="top"><a id="a3b2dc64a0190ef8411fdb3ab3abc34bd"></a>
 JobQueue&#160;</td><td class="memItemRight" valign="bottom"><b>job_queue</b></td></tr>
 <tr class="separator:a3b2dc64a0190ef8411fdb3ab3abc34bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -105,11 +108,28 @@ Store&#160;</td><td class="memItemRight" valign="bottom"><b>monitoring_store</b>
 <tr class="memitem:a529963468eb2c5d96cf716a78ced025d"><td class="memItemLeft" align="right" valign="top"><a id="a529963468eb2c5d96cf716a78ced025d"></a>
 std::mutex&#160;</td><td class="memItemRight" valign="bottom"><b>monitoring_store_mtx</b></td></tr>
 <tr class="separator:a529963468eb2c5d96cf716a78ced025d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acabb0b2c8f736ff30ce5b9482aa5deb4"><td class="memItemLeft" align="right" valign="top"><a id="acabb0b2c8f736ff30ce5b9482aa5deb4"></a>
+std::map&lt; uint64_t, <a class="el" href="structTimeSlice.html">TimeSlice</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>aggrigation_buffer</b></td></tr>
+<tr class="separator:acabb0b2c8f736ff30ce5b9482aa5deb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0641ab4f1b7a3e1e2466e5134cd7b5ea"><td class="memItemLeft" align="right" valign="top"><a id="a0641ab4f1b7a3e1e2466e5134cd7b5ea"></a>
+std::mutex&#160;</td><td class="memItemRight" valign="bottom"><b>aggrigation_buffer_mtx</b></td></tr>
+<tr class="separator:a0641ab4f1b7a3e1e2466e5134cd7b5ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a674634c76da328a416cbee2b11b383d8"><td class="memItemLeft" align="right" valign="top"><a id="a674634c76da328a416cbee2b11b383d8"></a>
+std::map&lt; uint64_t, <a class="el" href="structTimeSlice.html">TimeSlice</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>main_buffer</b></td></tr>
+<tr class="separator:a674634c76da328a416cbee2b11b383d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a797800acfe07441c8ad1730de81e1c3d"><td class="memItemLeft" align="right" valign="top"><a id="a797800acfe07441c8ad1730de81e1c3d"></a>
+std::mutex&#160;</td><td class="memItemRight" valign="bottom"><b>main_buffer_mtx</b></td></tr>
+<tr class="separator:a797800acfe07441c8ad1730de81e1c3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fe87a338a2a14fd40ad002255ecece8"><td class="memItemLeft" align="right" valign="top"><a id="a9fe87a338a2a14fd40ad002255ecece8"></a>
+Pool&lt; <a class="el" href="structTimeSlice.html">TimeSlice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>time_slice_pool</b></td></tr>
+<tr class="separator:a9fe87a338a2a14fd40ad002255ecece8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e71774c4eac1a71c357924023f29d0c"><td class="memItemLeft" align="right" valign="top"><a id="a2e71774c4eac1a71c357924023f29d0c"></a>
+std::map&lt; uint32_t, uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>pmt_id_map</b></td></tr>
+<tr class="separator:a2e71774c4eac1a71c357924023f29d0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class Is a transient data model class for your Tools within the ToolChain. If Tools need to comunicate they pass all data objects through the data model. There fore inter tool data objects should be deffined in this class.</p>
 <dl class="section rcs"><dt>Author</dt><dd>B.Richards </dd></dl>
-<dl class="section rcs"><dt>Date</dt><dd>2019/05/26 18:34:00 </dd></dl>
 </div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>DataModel/<a class="el" href="DataModel_8h_source.html">DataModel.h</a></li>
 <li>DataModel/DataModel.cpp</li>

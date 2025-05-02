@@ -22,6 +22,9 @@ Inheritance diagram for Data\+Model\+:\begin{figure}[H]
 \mbox{\Hypertarget{classDataModel_a0d269f90e9baeb1bdcb446b95a477ef0}\label{classDataModel_a0d269f90e9baeb1bdcb446b95a477ef0}} 
 bool {\bfseries running} = false
 \item 
+\mbox{\Hypertarget{classDataModel_a7f78a51e1a1cb2bc4d9038382486e7c8}\label{classDataModel_a7f78a51e1a1cb2bc4d9038382486e7c8}} 
+uint64\+\_\+t {\bfseries current\+\_\+counter} = 0
+\item 
 \mbox{\Hypertarget{classDataModel_a3b2dc64a0190ef8411fdb3ab3abc34bd}\label{classDataModel_a3b2dc64a0190ef8411fdb3ab3abc34bd}} 
 Job\+Queue {\bfseries job\+\_\+queue}
 \item 
@@ -36,6 +39,24 @@ Store {\bfseries monitoring\+\_\+store}
 \item 
 \mbox{\Hypertarget{classDataModel_a529963468eb2c5d96cf716a78ced025d}\label{classDataModel_a529963468eb2c5d96cf716a78ced025d}} 
 std\+::mutex {\bfseries monitoring\+\_\+store\+\_\+mtx}
+\item 
+\mbox{\Hypertarget{classDataModel_acabb0b2c8f736ff30ce5b9482aa5deb4}\label{classDataModel_acabb0b2c8f736ff30ce5b9482aa5deb4}} 
+std\+::map$<$ uint64\+\_\+t, \mbox{\hyperlink{structTimeSlice}{Time\+Slice}} $\ast$ $>$ {\bfseries aggrigation\+\_\+buffer}
+\item 
+\mbox{\Hypertarget{classDataModel_a0641ab4f1b7a3e1e2466e5134cd7b5ea}\label{classDataModel_a0641ab4f1b7a3e1e2466e5134cd7b5ea}} 
+std\+::mutex {\bfseries aggrigation\+\_\+buffer\+\_\+mtx}
+\item 
+\mbox{\Hypertarget{classDataModel_a674634c76da328a416cbee2b11b383d8}\label{classDataModel_a674634c76da328a416cbee2b11b383d8}} 
+std\+::map$<$ uint64\+\_\+t, \mbox{\hyperlink{structTimeSlice}{Time\+Slice}} $\ast$ $>$ {\bfseries main\+\_\+buffer}
+\item 
+\mbox{\Hypertarget{classDataModel_a797800acfe07441c8ad1730de81e1c3d}\label{classDataModel_a797800acfe07441c8ad1730de81e1c3d}} 
+std\+::mutex {\bfseries main\+\_\+buffer\+\_\+mtx}
+\item 
+\mbox{\Hypertarget{classDataModel_a9fe87a338a2a14fd40ad002255ecece8}\label{classDataModel_a9fe87a338a2a14fd40ad002255ecece8}} 
+Pool$<$ \mbox{\hyperlink{structTimeSlice}{Time\+Slice}} $>$ {\bfseries time\+\_\+slice\+\_\+pool}
+\item 
+\mbox{\Hypertarget{classDataModel_a2e71774c4eac1a71c357924023f29d0c}\label{classDataModel_a2e71774c4eac1a71c357924023f29d0c}} 
+std\+::map$<$ uint32\+\_\+t, uint16\+\_\+t $>$ {\bfseries pmt\+\_\+id\+\_\+map}
 \end{DoxyCompactItemize}
 
 
@@ -44,9 +65,6 @@ This class Is a transient data model class for your Tools within the Tool\+Chain
 
 \begin{DoxyParagraph}{Author}
 B.\+Richards 
-\end{DoxyParagraph}
-\begin{DoxyParagraph}{Date}
-2019/05/26 18\+:34\+:00 
 \end{DoxyParagraph}
 
 
