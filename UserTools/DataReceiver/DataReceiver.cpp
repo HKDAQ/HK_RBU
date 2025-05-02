@@ -16,7 +16,7 @@ DataReceiver_args::DataReceiver_args():Thread_args(){
 
 DataReceiver_args::~DataReceiver_args(){
 
-  if(tmp_job!=0) job_pool.Add(tmp_job); //left over jobs are added back to the pool rather than being deleted as pool will delete them when goes out of scopew
+  if(tmp_job!=0) job_pool.Add(tmp_job); //left over jobs are added back to the pool rather than being deleted as pool will delete them when goes out of scope
   if(tmp_data!=0) delete tmp_data;
   if(messages!=0) message_pool.Add(messages); //messages vector is added back to the pool instead of deleted as the pool will delete them in distruction.
 
@@ -79,15 +79,13 @@ void DataReceiver::Thread(Thread_args* arg){
   if(args->lapse.is_negative()){
     //printf("in lapse \n");
     args->num_connections = args->connections.size();
-    if(args->m_util->UpdateConnections(args->service, args->sock, args->connections, args->data_port) > args->num_connections) args->m_data->services->SendLog("Info: New MPMT connected",v_message); //add pmt id
+    if(args->m_util->UpdateConnections(args->service, args->sock, args->connections, args->data_port) > args->num_connections) args->m_data->services->SendLog("Info: New device connected", v_message); //add pmt id
     args->m_data->monitoring_store_mtx.lock();
     args->m_data->monitoring_store.Set("connected_"+args->service, args->num_connections);
     args->m_data->monitoring_store_mtx.unlock();
     args->last= boost::posix_time::microsec_clock::universal_time();
     //printf("conenctions=%d: %u\n",args->connections.size(), args->m_data->unsorted_data.size());
   }
-
-  // TODO BEN: this is still WCTE needs adapting
   
   ////////////////////////////////////////////////////////////////////////////////
 
@@ -115,8 +113,7 @@ void DataReceiver::Thread(Thread_args* arg){
       args->messages = 0;
       //      delete args->messages;
       //args->messages = 0;
-
-      //TODO BEN: throw an error
+      args->m_data->services->SendLog("Info: received bad data", v_message);
       return;
     }
     
@@ -126,9 +123,11 @@ void DataReceiver::Thread(Thread_args* arg){
     args->return_check = args->return_check && args->sock->send(args->reply);
 
     if(!args->return_check){
-
-      //TODO BEN: thow warning
-      //possibly also delete the data and return??? electronics should send it again and then you will ahve a duplicate if not
+      args->m_data->services->SendLog("Info: couldnt contact electronics baord", v_message);
+      args->messages->clear();
+      args->message_pool.Add(args->messages); // adding message vector back to pool rather than deleting to save instansiations
+      args->messages = 0;
+      return;
     }
     
 
@@ -180,30 +179,34 @@ void DataReceiver::CreateThreads(){
     args.at(i)->m_util = m_util;
     
     args.at(i)->sock = new zmq::socket_t(*(m_data->context), ZMQ_ROUTER);
-    args.at(i)->sock->setsockopt(ZMQ_RCVHWM, 20000);
-    args.at(i)->sock->setsockopt(ZMQ_LINGER, 100);
-    args.at(i)->sock->setsockopt(ZMQ_BACKLOG, 5000);
-    args.at(i)->sock->setsockopt(ZMQ_RCVTIMEO, 1000);
-    args.at(i)->sock->setsockopt(ZMQ_SNDTIMEO, 200);
-    args.at(i)->sock->setsockopt(ZMQ_IMMEDIATE, 1);
-    args.at(i)->sock->setsockopt(ZMQ_ROUTER_MANDATORY,1);
-    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE, 1);
-    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE_IDLE, 5);
-    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE_CNT, 12);
-    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE_INTVL, 5);
+    args.at(i)->sock->setsockopt(ZMQ_RCVHWM, receive_high_watermark);
+    args.at(i)->sock->setsockopt(ZMQ_LINGER, linger_ms);
+    args.at(i)->sock->setsockopt(ZMQ_BACKLOG, receive_timeout_ms);
+    args.at(i)->sock->setsockopt(ZMQ_RCVTIMEO, receive_timeout_ms);
+    args.at(i)->sock->setsockopt(ZMQ_SNDTIMEO, send_timeout_ms);
+    args.at(i)->sock->setsockopt(ZMQ_IMMEDIATE, immediate);
+    args.at(i)->sock->setsockopt(ZMQ_ROUTER_MANDATORY,router_mandatory);
+    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE, tcp_keepalive);
+    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE_IDLE, tcp_keepalive_idle_sec);
+    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE_CNT, tcp_keepalive_count);
+    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE_INTVL, tcp_keepalive_interval_sec);
 
     args.at(i)->items[0].socket=*args.at(i)->sock;
     args.at(i)->items[0].fd=0;
     args.at(i)->items[0].events=ZMQ_POLLIN;
     args.at(i)->items[0].revents=0;
 
-    args.at(i)->service="ID/OD";
-    if(i==1) args.at(i)->service="MPMT";
+    args.at(i)->service=idod_service;
+    args.at(i)->data_port=idod_data_port;
+    if(i==1){
+      args.at(i)->service=mpmt_service;
+      args.at(i)->data_port=mpmt_data_port;
+    }
     args.at(i)->num_connections=0;
     args.at(i)->messages=0;
-    args.at(i)->data_port="6666";  //TODO BEN: this is needs tobe a dynamic variable
     
-    args.at(i)->period=boost::posix_time::seconds(200);  //TODO BEN: this is needs tobe a dynamic variable
+    
+    args.at(i)->period=boost::posix_time::seconds(search_period_sec); 
     
     args.at(i)->last=boost::posix_time::microsec_clock::universal_time();
     
@@ -218,37 +221,39 @@ void DataReceiver::CreateThreads(){
 
 void DataReceiver::LoadConfig(){
 
-  if(!m_variables.Get("verbose",m_verbose)) m_verbose=1;
-
-  //TODO BEN: add more dynamic variables. need to think about what todo if not set
-    args.at(i)->sock->setsockopt(ZMQ_RCVHWM, 20000);
-    args.at(i)->sock->setsockopt(ZMQ_LINGER, 100);
-    args.at(i)->sock->setsockopt(ZMQ_BACKLOG, 5000);
-    args.at(i)->sock->setsockopt(ZMQ_RCVTIMEO, 1000);
-    args.at(i)->sock->setsockopt(ZMQ_SNDTIMEO, 200);
-    args.at(i)->sock->setsockopt(ZMQ_IMMEDIATE, 1);
-    args.at(i)->sock->setsockopt(ZMQ_ROUTER_MANDATORY,1);
-    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE, 1);
-    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE_IDLE, 5);
-    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE_CNT, 12);
-    args.at(i)->sock->setsockopt(ZMQ_TCP_KEEPALIVE_INTVL, 5);
-
-    args.at(i)->items[0].socket=*args.at(i)->sock;
-    args.at(i)->items[0].fd=0;
-    args.at(i)->items[0].events=ZMQ_POLLIN;
-    args.at(i)->items[0].revents=0;
-
-    args.at(i)->service="ID/OD";
-    if(i==1) args.at(i)->service="MPMT";
-    args.at(i)->num_connections=0;
-    args.at(i)->messages=0;
-    args.at(i)->data_port="6666";  //TODO BEN: this is needs tobe a dynamic variable
-    
-    args.at(i)->period=boost::posix_time::seconds(200);  //TODO BEN: this is needs tobe a dynamic variable
-
+  if(!m_variables.Get("verbose",m_verbose)) m_verbose=1;  
+  m_variables.Get("ZMQ_RCVHWM", receive_high_watermark);
+  m_variables.Get("ZMQ_LINGER", linger_ms);
+  m_variables.Get("ZMQ_BACKLOG", backlog);
+  m_variables.Get("ZMQ_RCVTIMEO", receive_timeout_ms);
+  m_variables.Get("ZMQ_SNDTIMEO", send_timeout_ms);
+  m_variables.Get("ZMQ_IMMEDIATE", immediate);
+  m_variables.Get("ZMQ_ROUTER_MANDATORY", router_mandatory);
+  m_variables.Get("ZMQ_TCP_KEEPALIVE", tcp_keepalive);
+  m_variables.Get("ZMQ_TCP_KEEPALIVE_IDLE", tcp_keepalive_idle_sec);
+  m_variables.Get("ZMQ_TCP_KEEPALIVE_CNT", tcp_keepalive_count);
+  m_variables.Get("ZMQ_TCP_KEEPALIVE_INTVL", tcp_keepalive_interval_sec);
+  m_variables.Get("idod_service", idod_service);
+  m_variables.Get("idod_data_port", idod_data_port);
+  m_variables.Get("mpmt_service", mpmt_service);
+  m_variables.Get("mpmt_data_port", mpmt_data_port);
+  m_variables.Get("search_period_sec", search_period_sec);
+  
   return;
 }
 
+bool DataReceiver::VarifyConfig(){
+
+  bool ret=true;
+  std::string response="";
+
+  for(size_t i; i <variable_names.size(); i++){
+    if(!m_variables.Has(variable_names.at(i))){
+      response+=" "+ variable_names.at(i);
+      ret=false;
+    }
+  }
+}
 
 bool DataReceiver::ProcessDataIDOD(void*& data){
 
@@ -257,6 +262,7 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
 
   /////////// freeing up variables from jobs last use ////////
   args->collections.clear(); 
+  args->tpu_hit_collection.clear();
   args->bin=0;
   args->current_bin=0;
   args->start_pos=0;
@@ -267,9 +273,9 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
   // making special header packet to store cardid and first sync
   args->header[1] = 0b01000000111111110000000000000000;
   args->header[2] = 0;   //TODO BEN: fix these
-
+  args->header[3] = 0;
   
-  args->daq_header = reinterpret_cast<RAWDAQHeader*>(args->messages->at(1).data()); //decode DAQheader
+  args->daq_header = reinterpret_cast<DAQHeader*>(args->messages->at(1).data()); //decode DAQheader
   args->words = reinterpret_cast<uint32_t*>(args->messages->at(2).data()); 
 
 
@@ -282,6 +288,13 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
       if(((args->words[args->current_word+1] >> 25) & 0b1) == 0){ //hit data object 
 	args->tmp_hit = reinterpret_cast<RAWIDODHit*>(&args->words[args->current_word]);
 	//TODO BEN: process hit
+	
+	uint32_t pmt_info =  ((uint32_t)args->daq_header->GetType() << 18 ) | ((args->daq_header->GetCardID() & 0b111111111111) << 6) | (args->words[args->current_word] >> 24); //this will change if big endian
+	uint16_t pmtid = args->m_data->pmt_id_map[pmt_info];
+	uint32_t time = 0;
+	args->tpu_hit_collection[args->bin].emplace_back(0b00, 0b0, args->tmp_hit->GetGain(), args->tmp_hit->GetCharge(), pmtid , time);
+
+
 	args->current_word+=args->tmp_hit->GetWords();
 	break;
       }
@@ -338,8 +351,32 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
   args->current_word++;
   args->collections[args->current_bin].insert(args->collections[args->current_bin].end(), &args->words[args->start_pos], &args->words[args->start_pos] + (args->current_word - args->start_pos));
  
-
   /// TODO BEN: now uplaod to central collection!!!
+
+  std::vector<TimeSlice*> time_slices;
+  
+  args->m_data->aggrigation_buffer_mtx.lock();
+  for(std::unordered_map<uint64_t, std::vector<uint32_t> >::iterator it=args->collections.begin(); it!=args->collections.end(); it++){
+
+    time_slices.push_back(args->m_data->aggrigation_buffer[it->first]);
+    
+  }
+  args->m_data->aggrigation_buffer_mtx.unlock();
+
+  for(std::unordered_map<uint64_t, std::vector<uint32_t> >::iterator it=args->collections.begin(); it!=args->collections.end(); it++){
+    
+    time_slices.front()->raw_idod_mtx.lock();
+    time_slices.front()->raw_idod.insert(time_slices.front()->raw_idod.end(), it->second.begin(), it->second.end());
+    time_slices.front()->raw_idod_mtx.unlock();
+    
+    time_slices.front()->reduced_hits_mtx.lock();
+    time_slices.front()->reduced_hits.insert(time_slices.front()->reduced_hits.end(), it->second.begin(), it->second.end());
+    time_slices.front()->reduced_hits_mtx.unlock();
+
+    //TODO BEN: add reduced hit sproperly
+
+  }
+
 
   
   //  delete args->messages;
@@ -378,3 +415,23 @@ void DataReceiver::ProcessDataFailMPMT(void*& data){
 
 }
 
+void DataReceiver::DefineVariables(){
+  
+  variable_names.push_back("RCVHWM");
+  variable_names.push_back("LINGER");
+  variable_names.push_back("BACKLOG");
+  variable_names.push_back("RCVTIMEO");
+  variable_names.push_back("SNDTIMEO");
+  variable_names.push_back("IMMEDIATE");
+  variable_names.push_back("ROUTER_MANDATORY");
+  variable_names.push_back("TCP_KEEPALIVE");
+  variable_names.push_back("TCP_KEEPALIVE_IDLE");
+  variable_names.push_back("TCP_KEEPALIVE_CNT");
+  variable_names.push_back("TCP_KEEPALIVE_INTVL");
+  variable_names.push_back("IDOD_service");
+  variable_names.push_back("IDOD_data_port");
+  variable_names.push_back("MPMT_service");
+  variable_names.push_back("MPMT_data_port");
+  variable_names.push_back("search_period");
+  
+}

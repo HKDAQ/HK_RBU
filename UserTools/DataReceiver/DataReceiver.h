@@ -26,15 +26,16 @@ struct DataReceiverJob_args:Thread_args{
   std::vector<zmq::message_t>* messages; ///< vector of input messages from electronics to be processed
   Pool<std::vector<zmq::message_t> >* message_pool; ///< message pool to return used message vectors to to save reallocation
   
-  RAWDAQHeader* daq_header = 0; ///< pointer to be assigned to daq header message when decoded
+  DAQHeader* daq_header = 0; ///< pointer to be assigned to daq header message when decoded
   uint32_t* words = 0; ///< pointer to array of words in the electronics messages
-  std::unordered_map<uint32_t, std::vector<uint32_t> > collections; ///< temporary storage for ~16ms time slices of data words before being passed to central storage  
-  uint32_t bin = 0; ///< time bin of data object being decoded
-  uint32_t current_bin = 0; ///< time bin of last processed data object
+  std::unordered_map<uint64_t, std::vector<uint32_t> > collections; ///< temporary storage for ~16ms time slices of data words before being passed to central storage  
+  std::unordered_map<uint64_t, std::vector<TPUHit> > tpu_hit_collection;
+  uint64_t bin = 0; ///< time bin of data object being decoded
+  uint64_t current_bin = 0; ///< time bin of last processed data object
   size_t start_pos = 0; ///< position of the first data object in words that hasnt yet been added to collections
   RAWIDODHit* tmp_hit = 0; ///< pointer for use in decoding hit words
   size_t current_word = 0; ///< current word being processed
-  uint32_t header[2] ={0,0}; ///< holder for header words
+  uint32_t header[3] = {0,0,0}; ///< holder for header words
 
 };
 
@@ -98,13 +99,34 @@ class DataReceiver: public Tool {
   static void Thread(Thread_args* arg); ///< Function to be run by the thread in a loop. Make sure not to block in it
   void CreateThreads(); ///< Function to create the IDOD and MPMT data receiver threads
   void LoadConfig(); ///< Function to load dynamic variable configuration form central store
+  bool VarifyConfig(); ///< function to varify configruation
+  void DefineVariables();
   static bool ProcessDataIDOD(void*& data); ///< Function to decode and proceess IDOD data
   static void ProcessDataFailIDOD(void*& data);  ///< Fucntion to run on filure of ProcessDataIDOD
   static bool ProcessDataMPMT(void*& data);  ///< Function to decode and proceess MPMT data
   static void ProcessDataFailMPMT(void*& data); ///< Fucntion to run on filure of ProcessDataMPMT
   
-  DAQUtilities* m_util;  ///< Pointer to utilities class to help with threading
+  DAQUtilities* m_util = 0;  ///< Pointer to utilities class to help with threading
   std::vector<DataReceiver_args*> args; ///< thread args (also holds pointer to the thread)
+  
+  std::vector<std::string> variable_names;
+  int32_t receive_high_watermark = 20000;
+  int32_t linger_ms = 100;
+  int32_t backlog = 5000;
+  int32_t receive_timeout_ms = 1000;
+  int32_t send_timeout_ms = 200;
+  int32_t immediate = 1;
+  int32_t router_mandatory = 1;
+  int32_t tcp_keepalive = 1;
+  int32_t tcp_keepalive_idle_sec = 5;
+  int32_t tcp_keepalive_count = 12;
+  int32_t tcp_keepalive_interval_sec = 5;
+  std::string idod_service = "ID/OD";
+  int32_t idod_data_port = 6666;
+  std::string mpmt_service = "MPMT";
+  int32_t mpmt_data_port = 6666;
+  int32_t search_period_sec = 200;
+
 
 };
 

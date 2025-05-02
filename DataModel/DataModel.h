@@ -22,6 +22,8 @@
 #include <DAQHeader.h>
 #include <zmq.hpp>
 #include <mutex>
+#include <TimeSlice.h>
+#include <TPUHit.h>
 
 using namespace ToolFramework;
 
@@ -32,7 +34,6 @@ using namespace ToolFramework;
  *
  *
  * $Author: B.Richards $ 
- * $Date: 2019/05/26 18:34:00 $
  *
  */
 
@@ -43,20 +44,26 @@ class DataModel : public DAQDataModelBase {
   
   DataModel(); ///< Simple constructor 
 
-  //TTree* GetTTree(std::string name);
-  //void AddTTree(std::string name,TTree *tree);
-  //void DeleteTTree(std::string name,TTree *tree);
-
   bool running = false;
+  uint64_t current_counter = 0;
 
   JobQueue job_queue;
-
+  
   unsigned int thread_cap;
   uint16_t num_threads;
-
+  
   Store monitoring_store;
   std::mutex monitoring_store_mtx;
+  
+  std::map<uint64_t, TimeSlice*> aggrigation_buffer;
+  std::mutex aggrigation_buffer_mtx;
 
+  std::map<uint64_t, TimeSlice*> main_buffer;
+  std::mutex main_buffer_mtx;
+
+  Pool<TimeSlice> time_slice_pool;  
+
+  std::map<uint32_t, uint16_t> pmt_id_map;
 
   
  private:
