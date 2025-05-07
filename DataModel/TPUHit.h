@@ -30,10 +30,9 @@ class TPUHit{
   void SetCharge(uint16_t& input){data[0] = (data[0] & 0b11111111111111110000000000001111) | (( ((uint32_t)input) & 0b111111111111) << 4);}
   void SetPMTID(uint16_t& input){data[0] = (data[0] & 0b00000000000000001111111111111111) | ( ((uint32_t)input) <<16);}
   void SetTime(uint32_t& input){data[1] = input;}
-  
- private:
-  
+    
   uint32_t data[2]; 
+
     
 };
 

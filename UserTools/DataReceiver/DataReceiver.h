@@ -26,7 +26,7 @@ struct DataReceiverJob_args:Thread_args{
   std::vector<zmq::message_t>* messages; ///< vector of input messages from electronics to be processed
   Pool<std::vector<zmq::message_t> >* message_pool; ///< message pool to return used message vectors to to save reallocation
   
-  DAQHeader* daq_header = 0; ///< pointer to be assigned to daq header message when decoded
+  RAWDAQHeader* daq_header = 0; ///< pointer to be assigned to daq header message when decoded
   uint32_t* words = 0; ///< pointer to array of words in the electronics messages
   std::unordered_map<uint64_t, std::vector<uint32_t> > collections; ///< temporary storage for ~16ms time slices of data words before being passed to central storage  
   std::unordered_map<uint64_t, std::vector<TPUHit> > tpu_hit_collection;
@@ -36,6 +36,10 @@ struct DataReceiverJob_args:Thread_args{
   RAWIDODHit* tmp_hit = 0; ///< pointer for use in decoding hit words
   size_t current_word = 0; ///< current word being processed
   uint32_t header[3] = {0,0,0}; ///< holder for header words
+  uint32_t current_time = 0;
+  bool bad_sync = false;
+  std::queue<TimeSlice*> time_slices;
+  std::queue<TimeSlice*> tpu_time_slices;
 
 };
 

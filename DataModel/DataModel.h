@@ -13,17 +13,15 @@
 #include "DAQUtilities.h"
 #include "SlowControlCollection.h"
 #include "DAQDataModelBase.h"
-#include <RAWDAQHeader.h>
 #include <RAWIDODHit.h>
 #include <RAWIDODPed.h>
 #include <RAWIDODSync.h>
 #include <RAWIDODError.h>
 #include <RAWIDODSpecial.h>
-#include <DAQHeader.h>
+#include <RAWDAQHeader.h>
 #include <zmq.hpp>
 #include <mutex>
 #include <TimeSlice.h>
-#include <TPUHit.h>
 
 using namespace ToolFramework;
 
@@ -49,8 +47,8 @@ class DataModel : public DAQDataModelBase {
 
   JobQueue job_queue;
   
-  unsigned int thread_cap;
-  uint16_t num_threads;
+  uint32_t thread_cap;
+  uint32_t num_threads;
   
   Store monitoring_store;
   std::mutex monitoring_store_mtx;

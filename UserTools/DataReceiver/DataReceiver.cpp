@@ -44,6 +44,8 @@ bool DataReceiver::Initialise(std::string configfile, DataModel &data){
 
 bool DataReceiver::Execute(){
 
+  //Todo Ben: add the configuration change code
+
   return true;
 }
 
@@ -263,21 +265,28 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
   /////////// freeing up variables from jobs last use ////////
   args->collections.clear(); 
   args->tpu_hit_collection.clear();
-  args->bin=0;
-  args->current_bin=0;
-  args->start_pos=0;
-  args->tmp_hit=0;
-  args->current_word =0;
-  //////////////////////////////////////////
+  args->bin = 0;
+  args->current_bin = 0;
+  args->start_pos = 0;
+  args->tmp_hit = 0;
+  args->current_word = 0;
+  args->current_time = 0;
+  args->bad_sync = false;
+  while(args->time_slices.size()) args->time_slices.pop();
+  while(args->tpu_time_slices.size()) args->tpu_time_slices.pop();
+ //////////////////////////////////////////
 
-  // making special header packet to store cardid and first sync
-  args->header[1] = 0b01000000111111110000000000000000;
-  args->header[2] = 0;   //TODO BEN: fix these
-  args->header[3] = 0;
   
-  args->daq_header = reinterpret_cast<DAQHeader*>(args->messages->at(1).data()); //decode DAQheader
-  args->words = reinterpret_cast<uint32_t*>(args->messages->at(2).data()); 
+  args->daq_header = reinterpret_cast<RAWDAQHeader*>(args->messages->at(1).data()); //decode DAQheader
+  
+  // making special header packet to store cardid and first sync
+  args->header[1] = 0b01000000111111110000000000000000 |  args->daq_header->GetCardID();
+  args->header[2] = 0;   
+  args->header[3] = 0;
 
+  
+  args->words = reinterpret_cast<uint32_t*>(args->messages->at(2).data()); 
+  
 
   /////////////// looping over data words extracting hits and local collection
   
@@ -287,22 +296,29 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
     case 0b11 : //hits or ped object
       if(((args->words[args->current_word+1] >> 25) & 0b1) == 0){ //hit data object 
 	args->tmp_hit = reinterpret_cast<RAWIDODHit*>(&args->words[args->current_word]);
-	//TODO BEN: process hit
 	
 	uint32_t pmt_info =  ((uint32_t)args->daq_header->GetType() << 18 ) | ((args->daq_header->GetCardID() & 0b111111111111) << 6) | (args->words[args->current_word] >> 24); //this will change if big endian
 	uint16_t pmtid = args->m_data->pmt_id_map[pmt_info];
-	uint32_t time = 0;
-	args->tpu_hit_collection[args->bin].emplace_back(0b00, 0b0, args->tmp_hit->GetGain(), args->tmp_hit->GetCharge(), pmtid , time);
-
+	uint32_t time = (((args->current_time & 0b00000000000000001111111100000000) | (args->tmp_hit->GetCoarse() & 0b11111111)) << 16 ) | args->tmp_hit->GetFine() ;
+	// reference: TPUHit(uint8_t type, bool bad_sync, bool gain, uint16_t charge, uint16_t pmt_id, uint32_t time){
+	args->tpu_hit_collection[args->bin].emplace_back(0b00, args->bad_sync, args->tmp_hit->GetGain(), args->tmp_hit->GetCharge(), pmtid , time);
 
 	args->current_word+=args->tmp_hit->GetWords();
+
 	break;
       }
     
       //ped data object
-      args->bin = RAWIDODPed::GetCoarse(&args->words[args->current_word]) >> 21;
-      if(args->collections.count(args->bin)==0) args->collections[args->bin].insert(args->collections[args->bin].end(), &args->header[0], &args->header[0] + 2);
-      if(args->bin!=args->current_bin){
+      args->bin = ((args->m_data->current_counter & -281474976710656L) >> 26 ) | (((args->current_time) >> 10) & 0b11111111111111111111111111111000) | (RAWIDODPed::GetCoarse(&args->words[args->current_word]) >> 21);
+
+      if(args->collections.count(args->bin)==0) {
+	args->header[2] = args->bin >> 6;
+	args->header[2] = args->bin << 26;
+	//args->header[2] = ((args->m_data->current_counter >> 32 ) & 0b11111111111111110000000000000000) | (args->current_time >> 16);   
+	//args->header[3] = ((args->current_time << 16 ) & 0b11100000000000000000000000000000) | (RAWIDODPed::GetCoarse(&args->words[args->current_word]) << 5);
+	args->collections[args->bin].insert(args->collections[args->bin].end(), &args->header[0], &args->header[0] + 3);
+	  }
+      if(args->bin!=args->current_bin){ //Todo BEN : this will try and insert zero length object on first call not sure if that will work/ just do nothing need to test
 	args->collections[args->current_bin].insert(args->collections[args->current_bin].end(), &args->words[args->start_pos], &args->words[args->start_pos] + (args->current_word - args->start_pos));
 	args->current_bin=args->bin;
 	args->start_pos=args->current_word;
@@ -312,8 +328,17 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
     
    
     case 0b10 : //sync data object
-      args->bin = RAWIDODSync::GetCounter(&args->words[args->current_word]) >> 10;
-      if(args->collections.count(args->bin)==0) args->collections[args->bin].insert(args->collections[args->bin].end(), &args->header[0], &args->header[0] + 2);
+
+      args->bin = ((args->m_data->current_counter & -281474976710656L) >> 26 ) | (RAWIDODSync::GetCounter(&args->words[args->current_word]) >> 10);
+      args->current_time = RAWIDODSync::GetCounter(&args->words[args->current_word]);
+      args->bad_sync = RAWIDODSync::GetSync500(&args->words[args->current_word]) && RAWIDODSync::GetSync125(&args->words[args->current_word]);
+      if(args->collections.count(args->bin)==0){
+	args->header[2] = args->bin >> 6;
+	args->header[2] = args->bin << 26;
+	//args->header[2] = ((args->m_data->current_counter >> 32 ) & 0b11111111111111110000000000000000) | ( args->current_time >> 16);   
+	//args->header[3] = (args->current_time << 16 );
+	args->collections[args->bin].insert(args->collections[args->bin].end(), &args->header[0], &args->header[0] + 2);
+      }
       if(args->bin!=args->current_bin){
 	args->collections[args->current_bin].insert(args->collections[args->current_bin].end(), &args->words[args->start_pos], &args->words[args->start_pos] + (args->current_word - args->start_pos));
 	args->current_bin=args->bin;
@@ -323,8 +348,14 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
       break;
       
     case 0b00: //error
-      args->bin = RAWIDODError::GetCoarse(&args->words[args->current_word]) >> 10;
-      if(args->collections.count(args->bin)==0) args->collections[args->bin].insert(args->collections[args->bin].end(), &args->header[0], &args->header[0] + 2);
+      args->bin = ((args->m_data->current_counter & -281474976710656L) >> 26 ) | ( RAWIDODError::GetCoarse(&args->words[args->current_word]) >> 10);
+      if(args->collections.count(args->bin)==0){
+	args->header[2] = args->bin >> 6;
+	args->header[2] = args->bin << 26;
+	//args->header[2] = ((args->m_data->current_counter >> 32 ) & 0b11111111111111110000000000000000) | (RAWIDODError::GetCoarse(&args->words[args->current_word]) >> 16);   
+	//args->header[3] = (RAWIDODError::GetCoarse(&args->words[args->current_word]) << 16 );
+	args->collections[args->bin].insert(args->collections[args->bin].end(), &args->header[0], &args->header[0] + 3);
+      }
       if(args->bin!=args->current_bin){
 	args->collections[args->current_bin].insert(args->collections[args->current_bin].end(), &args->words[args->start_pos], &args->words[args->start_pos] + (args->current_word - args->start_pos));
 	args->current_bin=args->bin;
@@ -334,8 +365,14 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
       break;
       
     case 0b01: //special data object
-      args->bin = RAWIDODSpecial::GetCoarse(&args->words[args->current_word]) >> 10;
-      if(args->collections.count(args->bin)==0) args->collections[args->bin].insert(args->collections[args->bin].end(), &args->header[0], &args->header[0] + 2);
+      args->bin = ((args->m_data->current_counter & -281474976710656L) >> 26 ) | ( RAWIDODSpecial::GetCoarse(&args->words[args->current_word]) >> 10);
+      if(args->collections.count(args->bin)==0){
+	args->header[2] = args->bin >> 6;
+	args->header[2] = args->bin << 26;
+	//args->header[2] = ((args->m_data->current_counter >> 32 ) & 0b11111111111111110000000000000000) | (RAWIDODSpecial::GetCoarse(&args->words[args->current_word]) >> 16);   
+	//args->header[3] = (RAWIDODSpecial::GetCoarse(&args->words[args->current_word]) << 16 );
+	args->collections[args->bin].insert(args->collections[args->bin].end(), &args->header[0], &args->header[0] + 3);
+      }
       if(args->bin!=args->current_bin){
 	args->collections[args->current_bin].insert(args->collections[args->current_bin].end(), &args->words[args->start_pos], &args->words[args->start_pos] + (args->current_word - args->start_pos));
 	args->current_bin=args->bin;
@@ -351,34 +388,49 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
   args->current_word++;
   args->collections[args->current_bin].insert(args->collections[args->current_bin].end(), &args->words[args->start_pos], &args->words[args->start_pos] + (args->current_word - args->start_pos));
  
-  /// TODO BEN: now uplaod to central collection!!!
-
-  std::vector<TimeSlice*> time_slices;
-  
+  //now uplaod to central agrigation collection!!!
+  // find the relavent bins to avoid locking whole collection all the time  
   args->m_data->aggrigation_buffer_mtx.lock();
   for(std::unordered_map<uint64_t, std::vector<uint32_t> >::iterator it=args->collections.begin(); it!=args->collections.end(); it++){
-
-    time_slices.push_back(args->m_data->aggrigation_buffer[it->first]);
+    
+    args->time_slices.push(args->m_data->aggrigation_buffer[it->first]);
     
   }
+
+  for(std::unordered_map<uint64_t, std::vector<TPUHit> >::iterator it = args->tpu_hit_collection.begin(); it!=args->tpu_hit_collection.end() ; it++){
+    
+    args->tpu_time_slices.push(args->m_data->aggrigation_buffer[it->first]);
+    
+  }
+  
   args->m_data->aggrigation_buffer_mtx.unlock();
 
+
+  // upload the raw hits
   for(std::unordered_map<uint64_t, std::vector<uint32_t> >::iterator it=args->collections.begin(); it!=args->collections.end(); it++){
     
-    time_slices.front()->raw_idod_mtx.lock();
-    time_slices.front()->raw_idod.insert(time_slices.front()->raw_idod.end(), it->second.begin(), it->second.end());
-    time_slices.front()->raw_idod_mtx.unlock();
-    
-    time_slices.front()->reduced_hits_mtx.lock();
-    time_slices.front()->reduced_hits.insert(time_slices.front()->reduced_hits.end(), it->second.begin(), it->second.end());
-    time_slices.front()->reduced_hits_mtx.unlock();
-
-    //TODO BEN: add reduced hit sproperly
-
+    args->time_slices.front()->raw_idod_mtx.lock();
+    args->time_slices.front()->raw_idod.insert(args->time_slices.front()->raw_idod.end(), it->second.begin(), it->second.end());
+    args->time_slices.front()->raw_idod_mtx.unlock();
+    args->time_slices.pop();
   }
-
-
   
+  //upload reduced tpu hits
+  for(std::unordered_map<uint64_t, std::vector<TPUHit> >::iterator it = args->tpu_hit_collection.begin(); it!=args->tpu_hit_collection.end() ; it++){
+    
+    args->tpu_time_slices.front()->reduced_hits_mtx.lock();
+    args->tpu_time_slices.front()->reduced_hits.insert(args->tpu_time_slices.front()->reduced_hits.end(), it->second.begin(), it->second.end());
+    args->tpu_time_slices.front()->reduced_hits_mtx.unlock();
+    args->tpu_time_slices.pop();
+  }
+  
+  //clearing up
+  while(args->time_slices.size()) args->time_slices.pop();
+  while(args->tpu_time_slices.size()) args->tpu_time_slices.pop();
+  args->collections.clear();
+  args->tpu_hit_collection.clear();
+  
+  args->messages->clear();
   //  delete args->messages;
   args->message_pool->Add(args->messages); //returning messafes to pool for reuse
   args->messages=0;
@@ -395,6 +447,7 @@ void DataReceiver::ProcessDataFailIDOD(void*& data){
   if(data!=0){  
     DataReceiverJob_args* args = reinterpret_cast<DataReceiverJob_args*>(data);
     //    delete args->messages;
+    if(args->messages!=0) args->messages->clear();
     args->message_pool->Add(args->messages);    //returning messafes to pool for reuse
     args->messages=0;
     //args->m_data=0;
