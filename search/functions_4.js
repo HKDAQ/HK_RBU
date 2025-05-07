@@ -1,9 +1,4 @@
 var searchData=
 [
-  ['mytool_90',['MyTool',['../classMyTool.html#ad85b796bdd675ae22e69cf40fe7b6314',1,'MyTool']]],
-  ['mytooldynamicmultithread_91',['MyToolDynamicMultiThread',['../classMyToolDynamicMultiThread.html#a5eec7239400c507754ba6218b3eb8d4a',1,'MyToolDynamicMultiThread']]],
-  ['mytoolmultithread_92',['MyToolMultiThread',['../classMyToolMultiThread.html#ac24f005c6da9c552871f6ff2672cf7f1',1,'MyToolMultiThread']]],
-  ['mytoolserviceadd_93',['MyToolServiceAdd',['../classMyToolServiceAdd.html#a74ea27af61207cb9542f569e5669f013',1,'MyToolServiceAdd']]],
-  ['mytoolthread_94',['MyToolThread',['../classMyToolThread.html#a66c6fc304a8d62436281598d988dd845',1,'MyToolThread']]],
-  ['mytoolzmqmultithread_95',['MyToolZMQMultiThread',['../classMyToolZMQMultiThread.html#a4036001006932887c7ed36eda1d1af50',1,'MyToolZMQMultiThread']]]
+  ['jobmanager_94',['JobManager',['../classJobManager.html#a4bf3434e13bd6ec078e02c268631c262',1,'JobManager']]]
 ];

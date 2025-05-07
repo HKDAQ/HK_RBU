@@ -22,8 +22,8 @@ std\+::vector$<$ zmq\+::message\+\_\+t $>$ $\ast$ \mbox{\hyperlink{structDataRec
 \mbox{\Hypertarget{structDataReceiverJob__args_adb03ba2e710dec0db753067ec42df1a8}\label{structDataReceiverJob__args_adb03ba2e710dec0db753067ec42df1a8}} 
 Pool$<$ std\+::vector$<$ zmq\+::message\+\_\+t $>$ $>$ $\ast$ \mbox{\hyperlink{structDataReceiverJob__args_adb03ba2e710dec0db753067ec42df1a8}{message\+\_\+pool}}
 \begin{DoxyCompactList}\small\item\em message pool to return used message vectors to to save reallocation \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{structDataReceiverJob__args_afae6fb1dc1d8defbece6ec43912f416e}\label{structDataReceiverJob__args_afae6fb1dc1d8defbece6ec43912f416e}} 
-\mbox{\hyperlink{classDAQHeader}{DAQHeader}} $\ast$ \mbox{\hyperlink{structDataReceiverJob__args_afae6fb1dc1d8defbece6ec43912f416e}{daq\+\_\+header}} = 0
+\mbox{\Hypertarget{structDataReceiverJob__args_ad5ec28e6c8573d84d148f5e9f2a9a595}\label{structDataReceiverJob__args_ad5ec28e6c8573d84d148f5e9f2a9a595}} 
+\mbox{\hyperlink{classRAWDAQHeader}{RAWDAQHeader}} $\ast$ \mbox{\hyperlink{structDataReceiverJob__args_ad5ec28e6c8573d84d148f5e9f2a9a595}{daq\+\_\+header}} = 0
 \begin{DoxyCompactList}\small\item\em pointer to be assigned to daq header message when decoded \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structDataReceiverJob__args_af300f1b41178532f2a25b442f551529e}\label{structDataReceiverJob__args_af300f1b41178532f2a25b442f551529e}} 
 uint32\+\_\+t $\ast$ \mbox{\hyperlink{structDataReceiverJob__args_af300f1b41178532f2a25b442f551529e}{words}} = 0
@@ -52,7 +52,19 @@ size\+\_\+t \mbox{\hyperlink{structDataReceiverJob__args_aa35aee619af23176807987
 \begin{DoxyCompactList}\small\item\em current word being processed \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{structDataReceiverJob__args_a0b117a8a34dea7cf4f664936114e40e8}\label{structDataReceiverJob__args_a0b117a8a34dea7cf4f664936114e40e8}} 
 uint32\+\_\+t \mbox{\hyperlink{structDataReceiverJob__args_a0b117a8a34dea7cf4f664936114e40e8}{header}} \mbox{[}3\mbox{]} = \{0,0,0\}
-\begin{DoxyCompactList}\small\item\em holder for header words \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em holder for header words \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structDataReceiverJob__args_a8af0f70cac82071837f10822daab71d0}\label{structDataReceiverJob__args_a8af0f70cac82071837f10822daab71d0}} 
+uint32\+\_\+t {\bfseries current\+\_\+time} = 0
+\item 
+\mbox{\Hypertarget{structDataReceiverJob__args_a07acbb6de91014d03e80fe6dbd01f650}\label{structDataReceiverJob__args_a07acbb6de91014d03e80fe6dbd01f650}} 
+bool {\bfseries bad\+\_\+sync} = false
+\item 
+\mbox{\Hypertarget{structDataReceiverJob__args_a4b6ea78a282947c31de540d307212541}\label{structDataReceiverJob__args_a4b6ea78a282947c31de540d307212541}} 
+std\+::queue$<$ \mbox{\hyperlink{structTimeSlice}{Time\+Slice}} $\ast$ $>$ {\bfseries time\+\_\+slices}
+\item 
+\mbox{\Hypertarget{structDataReceiverJob__args_a32667f7ae966ffd0b2000cc37e1352f7}\label{structDataReceiverJob__args_a32667f7ae966ffd0b2000cc37e1352f7}} 
+std\+::queue$<$ \mbox{\hyperlink{structTimeSlice}{Time\+Slice}} $\ast$ $>$ {\bfseries tpu\+\_\+time\+\_\+slices}
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
