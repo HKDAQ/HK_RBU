@@ -38,6 +38,33 @@ class RAWIDODHit{
   
 };
 
+class RAWrIDODHit{
+
+ public:
+
+  RAWrIDODHit();
+  uint8_t GetType() const;
+  bool GetBoardNum() const;
+  bool GetIDOD() const;
+  uint8_t GetChannel() const;
+  uint8_t GetCoarse() const;
+  uint16_t GetFine() const;
+  uint8_t GetNumSubHits() const;
+  bool GetTDCError() const;
+  bool GetPed() const;
+  bool GetGain() const;
+  uint16_t GetCharge() const;
+  uint16_t GetStop() const;
+  size_t GetSize() const;
+  size_t GetWords() const;
+  void Print() const;
+
+ private:
+
+  uint32_t data[2];
+
+};
+
 class IDODHit{
   
  public:

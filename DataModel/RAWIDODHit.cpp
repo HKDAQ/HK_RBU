@@ -15,21 +15,6 @@ namespace {
   constexpr uint32_t CHARGE_MASK    = 0b00000000111111111111000000000000;
   constexpr uint32_t STOP_MASK      = 0b00000000000000000000111111111111;
 
-  /*
-  constexpr uint32_t TYPE_MASK      = 0xC0000000;
-  constexpr uint32_t BOARDNUM_MASK  = 0x20000000;
-  constexpr uint32_t IDOD_MASK      = 0x10000000;
-  constexpr uint32_t CHANNEL_MASK   = 0x0F000000;
-  constexpr uint32_t COARSE_MASK    = 0x00FF0000;
-  constexpr uint32_t FINE_MASK      = 0x0000FFFF;
-
-  constexpr uint32_t SUBHITS_MASK   = 0xF8000000;
-  constexpr uint32_t TDCERR_MASK    = 0x04000000;
-  constexpr uint32_t PED_MASK       = 0x02000000;
-  constexpr uint32_t GAIN_MASK      = 0x01000000;
-  constexpr uint32_t CHARGE_MASK    = 0x00FFF000;
-  constexpr uint32_t STOP_MASK      = 0x00000FFF;
-  */
 }
 
 
@@ -62,13 +47,13 @@ size_t RAWIDODHit::GetWords() const { return 2 + ( (GetNumSubHits()>15) ? 15 : (
 void RAWIDODHit::Print() const {
   
   std::cout<<std::bitset<32>(data[0])<<" , "<<std::bitset<32>(data[1])<<std::endl;
-  std::cout<<"Type: "<<std::to_string(GetType())<<" , "<<std::bitset<2>(GetType())<<std::endl;
+  std::cout<<"Type: "<<+GetType()<<" , "<<std::bitset<2>(GetType())<<std::endl;
   std::cout<<"BoardNum: "<<GetBoardNum()<<" , "<<std::bitset<1>(GetBoardNum())<<std::endl;
   std::cout<<"IDOD: "<<GetIDOD()<<" , "<<std::bitset<1>(GetIDOD())<<std::endl;
-  std::cout<<"Channel: "<<std::to_string(GetChannel())<<" , "<<std::bitset<4>(GetChannel())<<std::endl;
-  std::cout<<"Coarse: "<<std::to_string(GetCoarse())<<" , "<<std::bitset<8>(GetCoarse())<<std::endl;
+  std::cout<<"Channel: "<<+GetChannel()<<" , "<<std::bitset<4>(GetChannel())<<std::endl;
+  std::cout<<"Coarse: "<<+GetCoarse()<<" , "<<std::bitset<8>(GetCoarse())<<std::endl;
   std::cout<<"Fine: "<<GetFine()<<" , "<<std::bitset<16>(GetFine())<<std::endl;
-  std::cout<<"NumSubHits: "<<std::to_string(GetNumSubHits())<<" , "<<std::bitset<5>(GetNumSubHits())<<std::endl;
+  std::cout<<"NumSubHits: "<<+GetNumSubHits()<<" , "<<std::bitset<5>(GetNumSubHits())<<std::endl;
   std::cout<<"TDCError: "<<GetTDCError()<<" , "<<std::bitset<1>(GetTDCError())<<std::endl;
   std::cout<<"Ped: "<<GetPed()<<" , "<<std::bitset<1>(GetPed())<<std::endl;
   std::cout<<"Gain: "<<GetGain()<<" , "<<std::bitset<1>(GetGain())<<std::endl;
@@ -135,13 +120,13 @@ void IDODHit::SetStop(uint16_t in){data.at(1) = (data.at(1) & ~STOP_MASK) | (((u
 void IDODHit::Print() const {
 
   std::cout<<std::bitset<32>(data[0])<<" , "<<std::bitset<32>(data[1])<<std::endl;
-  std::cout<<"Type: "<<std::to_string(GetType())<<" , "<<std::bitset<2>(GetType())<<std::endl;
+  std::cout<<"Type: "<<+GetType()<<" , "<<std::bitset<2>(GetType())<<std::endl;
   std::cout<<"BoardNum: "<<GetBoardNum()<<" , "<<std::bitset<1>(GetBoardNum())<<std::endl;
   std::cout<<"IDOD: "<<GetIDOD()<<" , "<<std::bitset<1>(GetIDOD())<<std::endl;
-  std::cout<<"Channel: "<<std::to_string(GetChannel())<<" , "<<std::bitset<4>(GetChannel())<<std::endl;
-  std::cout<<"Coarse: "<<std::to_string(GetCoarse())<<" , "<<std::bitset<8>(GetCoarse())<<std::endl;
+  std::cout<<"Channel: "<<+GetChannel()<<" , "<<std::bitset<4>(GetChannel())<<std::endl;
+  std::cout<<"Coarse: "<<+GetCoarse()<<" , "<<std::bitset<8>(GetCoarse())<<std::endl;
   std::cout<<"Fine: "<<GetFine()<<" , "<<std::bitset<16>(GetFine())<<std::endl;
-  std::cout<<"NumSubHits: "<<std::to_string(GetNumSubHits())<<" , "<<std::bitset<5>(GetNumSubHits())<<std::endl;
+  std::cout<<"NumSubHits: "<<+GetNumSubHits()<<" , "<<std::bitset<5>(GetNumSubHits())<<std::endl;
   std::cout<<"TDCError: "<<GetTDCError()<<" , "<<std::bitset<1>(GetTDCError())<<std::endl;
   std::cout<<"Ped: "<<GetPed()<<" , "<<std::bitset<1>(GetPed())<<std::endl;
   std::cout<<"Gain: "<<GetGain()<<" , "<<std::bitset<1>(GetGain())<<std::endl;
@@ -151,3 +136,38 @@ void IDODHit::Print() const {
 
 }
 
+RAWrIDODHit::RAWrIDODHit(){;}
+
+
+uint8_t RAWrIDODHit::GetType() const { return data[0] >> 30;}
+bool RAWrIDODHit::GetBoardNum() const { return ((data[0] & BOARD_NUM_MASK) >> 29);}
+bool RAWrIDODHit::GetIDOD() const { return ((data[0] & IDOD_MASK) >> 28);}
+uint8_t RAWrIDODHit::GetChannel() const {return ((data[0] & CHANNEL_MASK) >> 24);}
+uint8_t RAWrIDODHit::GetCoarse() const {return ((data[0] & COARSE_MASK) >> 16);}
+uint16_t RAWrIDODHit::GetFine() const {return (data[0] & FINE_MASK);}
+uint8_t RAWrIDODHit::GetNumSubHits() const {return ((data[1] & SUB_HITS_MASK) >> 27);}
+bool RAWrIDODHit::GetTDCError() const {return ((data[1] & TDC_ERR_MASK) >> 26);}
+bool RAWrIDODHit::GetPed() const {return ((data[1] & PED_MASK) >> 25);}
+bool RAWrIDODHit::GetGain() const {return ((data[1] & GAIN_MASK) >> 24);}
+uint16_t RAWrIDODHit::GetCharge() const {return ((data[1] & CHARGE_MASK) >> 12);}
+uint16_t RAWrIDODHit::GetStop() const {return (data[1] & STOP_MASK);}
+size_t RAWrIDODHit::GetSize() const { return 64 + ( (GetNumSubHits()>15) ? 480 : (GetNumSubHits() * 32));}
+size_t RAWrIDODHit::GetWords() const { return 2 + ( (GetNumSubHits()>15) ? 15 : (GetNumSubHits()) );}
+
+void RAWrIDODHit::Print() const {
+  
+  std::cout<<std::bitset<32>(data[0])<<" , "<<std::bitset<32>(data[1])<<std::endl;
+  std::cout<<"Type: "<<+GetType()<<" , "<<std::bitset<2>(GetType())<<std::endl;
+  std::cout<<"BoardNum: "<<GetBoardNum()<<" , "<<std::bitset<1>(GetBoardNum())<<std::endl;
+  std::cout<<"IDOD: "<<GetIDOD()<<" , "<<std::bitset<1>(GetIDOD())<<std::endl;
+  std::cout<<"Channel: "<<+GetChannel()<<" , "<<std::bitset<4>(GetChannel())<<std::endl;
+  std::cout<<"Coarse: "<<+GetCoarse()<<" , "<<std::bitset<8>(GetCoarse())<<std::endl;
+  std::cout<<"Fine: "<<GetFine()<<" , "<<std::bitset<16>(GetFine())<<std::endl;
+  std::cout<<"NumSubHits: "<<+GetNumSubHits()<<" , "<<std::bitset<5>(GetNumSubHits())<<std::endl;
+  std::cout<<"TDCError: "<<GetTDCError()<<" , "<<std::bitset<1>(GetTDCError())<<std::endl;
+  std::cout<<"Ped: "<<GetPed()<<" , "<<std::bitset<1>(GetPed())<<std::endl;
+  std::cout<<"Gain: "<<GetGain()<<" , "<<std::bitset<1>(GetGain())<<std::endl;
+  std::cout<<"Charge: "<<GetCharge()<<" , "<<std::bitset<12>(GetCharge())<<std::endl;
+  std::cout<<"Stop: "<<GetStop()<<" , "<<std::bitset<12>(GetStop())<<std::endl;
+
+}

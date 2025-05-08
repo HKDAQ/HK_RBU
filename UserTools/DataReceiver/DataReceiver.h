@@ -23,17 +23,17 @@ struct DataReceiverJob_args:Thread_args{
   DataReceiverJob_args();
   ~DataReceiverJob_args();
   DataModel* m_data = 0; ///< pointer to central data model to get agrigated electronics data collections
-  std::vector<zmq::message_t>* messages; ///< vector of input messages from electronics to be processed
-  Pool<std::vector<zmq::message_t> >* message_pool; ///< message pool to return used message vectors to to save reallocation
+  std::vector<zmq::message_t>* messages = 0; ///< vector of input messages from electronics to be processed
+  Pool<std::vector<zmq::message_t> >* message_pool = 0; ///< message pool to return used message vectors to to save reallocation
   
-  RAWDAQHeader* daq_header = 0; ///< pointer to be assigned to daq header message when decoded
+  DAQHeader* daq_header = 0; ///< pointer to be assigned to daq header message when decoded
   uint32_t* words = 0; ///< pointer to array of words in the electronics messages
   std::unordered_map<uint64_t, std::vector<uint32_t> > collections; ///< temporary storage for ~16ms time slices of data words before being passed to central storage  
   std::unordered_map<uint64_t, std::vector<TPUHit> > tpu_hit_collection;
   uint64_t bin = 0; ///< time bin of data object being decoded
   uint64_t current_bin = 0; ///< time bin of last processed data object
   size_t start_pos = 0; ///< position of the first data object in words that hasnt yet been added to collections
-  RAWIDODHit* tmp_hit = 0; ///< pointer for use in decoding hit words
+  RAWrIDODHit* tmp_hit = 0; ///< pointer for use in decoding hit words
   size_t current_word = 0; ///< current word being processed
   uint32_t header[3] = {0,0,0}; ///< holder for header words
   uint32_t current_time = 0;

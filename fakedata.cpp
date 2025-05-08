@@ -12,43 +12,78 @@
 #include <chrono>
 #include <bitset>
 #include <stdlib.h>     /* srand, rand */
+#include <zmq.hpp>
  
 int main(){
 
   srand (time(NULL));
-  rand();
-
   std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
-
-  uint32_t header_words[3];
-  RAWDAQHeader header(&header_words[0]);
-
-  //  std::chrono::nanoseconds ns(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now()))
-
+  std::chrono::high_resolution_clock::time_point last = start;
+  uint32_t message_num=0;
+  
+  DAQHeader header;
+  uint64_t ps;
+  uint64_t ms;
   std::vector<uint32_t> data;
   data.reserve(50000);
-  //std::chrono::high_resolution_clock::time_point t1;
-  uint64_t ns;  
-  for(size_t i=0; i < 100; i++){
+  
+  zmq::context_t context(1);
+  zmq::socket_t sock(context, ZMQ_DEALER);
+  sock.bind("tcp://*:4455");
+  
+  while(true){
 
-    //t1 = std::chrono::high_resolution_clock::now();
-    ns=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now()-start).count() * 4;
+    ms=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now()-last).count();
+    
+    if(ms>(100/20)){
+      last = std::chrono::high_resolution_clock::now();
+      ps=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now()-start).count() * 4;
+      
+      data.clear();
+      
+      header.SetMessageNum(message_num);
+      message_num++;
+      header.SetCoarseCounter((uint32_t)ps);
+      header.SetCardID(rand() % 2000);
+      
+      for(size_t i=0; i < 100; i++){
+	
+	//t1 = std::chrono::high_resolution_clock::now();
+	ps=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now()-start).count() * 4;
+	
+	IDODSync tmp((uint32_t)(ps >>16));
+	//    std::cout<<std::bitset<9>(tmp.GetChannel())<<std::endl;
+	data.push_back(tmp.GetData()[0]);
+	data.push_back(tmp.GetData()[1]);
+	
+	for( size_t j=0; j< 240; j++){
+	  ps=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now()-start).count() * 4;
+	  
+	  IDODHit tmp2((uint8_t)ps, (uint16_t)(ps>>16));
+	  tmp2.SetPed(false);
+	  data.push_back(tmp2.GetData()->at(0));
+	  data.push_back(tmp2.GetData()->at(1));
+	}	
+      }
 
-    IDODSync tmp((uint32_t)(ns >>16));
-    //    std::cout<<std::bitset<9>(tmp.GetChannel())<<std::endl;
-    data.push_back(tmp.GetData()[0]);
-    data.push_back(tmp.GetData()[1]);
+      zmq::message_t msg1(24);
+      std::memcpy(msg1.data(), &header.GetData()[0], 24);
 
-    for( size_t j=0; j< 240; j++){
-      ns=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now()-start).count() * 4;
+      zmq::message_t msg2(data.size());
+      std::memcpy(msg2.data(), data.data(), data.size());
 
-      IDODHit tmp2((uint8_t)ns, (uint16_t)(ns>>16));
-      data.push_back(tmp2.GetData()->at(0));
-      data.push_back(tmp2.GetData()->at(1));
+      // sock.send(msg1, ZMQ_SNDMORE | ZMQ_NOBLOCK);
+      // sock.send(msg2, ZMQ_NOBLOCK);
+
+      sock.send(msg1, ZMQ_SNDMORE);
+      sock.send(msg2);
+
+      std::cout<<"sent data: "<<ms<<std::endl;
     }
 
 
-  }
+
+}
     
   for(size_t i=0; i<10; i=i+2){ //data.size(); i++){
     

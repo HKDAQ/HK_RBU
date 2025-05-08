@@ -1,0 +1,17 @@
+  if(!m_variables.Get("verbose",m_verbose)) m_verbose=1;  
+  m_variables.Get("ZMQ_RCVHWM", receive_high_watermark);
+  m_variables.Get("ZMQ_LINGER", linger_ms);
+  m_variables.Get("ZMQ_BACKLOG", backlog);
+  m_variables.Get("ZMQ_RCVTIMEO", receive_timeout_ms);
+  m_variables.Get("ZMQ_SNDTIMEO", send_timeout_ms);
+  m_variables.Get("ZMQ_IMMEDIATE", immediate);
+  m_variables.Get("ZMQ_ROUTER_MANDATORY", router_mandatory);
+  m_variables.Get("ZMQ_TCP_KEEPALIVE", tcp_keepalive);
+  m_variables.Get("ZMQ_TCP_KEEPALIVE_IDLE", tcp_keepalive_idle_sec);
+  m_variables.Get("ZMQ_TCP_KEEPALIVE_CNT", tcp_keepalive_count);
+  m_variables.Get("ZMQ_TCP_KEEPALIVE_INTVL", tcp_keepalive_interval_sec);
+  m_variables.Get("idod_service", idod_service);
+  m_variables.Get("idod_data_port", idod_data_port);
+  m_variables.Get("mpmt_service", mpmt_service);
+  m_variables.Get("mpmt_data_port", mpmt_data_port);
+  m_variables.Get("search_period_sec", search_period_sec);

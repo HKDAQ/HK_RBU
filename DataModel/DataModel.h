@@ -47,8 +47,8 @@ class DataModel : public DAQDataModelBase {
 
   JobQueue job_queue;
   
-  uint32_t thread_cap;
-  uint32_t num_threads;
+  uint32_t thread_cap = 20;
+  uint32_t num_threads = 0;
   
   Store monitoring_store;
   std::mutex monitoring_store_mtx;

@@ -40,16 +40,14 @@ size_t RAWIDODSync::GetWords(){ return 2;}
 void RAWIDODSync::Print() const {
   
   std::cout<<std::bitset<32>(data[0])<<" , "<<std::bitset<32>(data[1])<<std::endl;
-  std::cout<<"Type: "<<std::to_string(GetType())<<" , "<<std::bitset<2>(GetType())<<std::endl;
+  std::cout<<"Type: "<<+GetType()<<" , "<<std::bitset<2>(GetType())<<std::endl;
   std::cout<<"BoardNum: "<<GetBoardNum()<<" , "<<std::bitset<1>(GetBoardNum())<<std::endl;
   std::cout<<"IDOD: "<<GetIDOD()<<" , "<<std::bitset<1>(GetIDOD())<<std::endl;
-  std::cout<<"Channel: "<<std::to_string(GetChannel())<<" , "<<std::bitset<4>(GetChannel())<<std::endl;
-  std::cout<<"Sync500: "<<std::to_string(GetSync500())<<" , "<<std::bitset<1>(GetSync500())<<std::endl;
-  std::cout<<"Sync125: "<<std::to_string(GetSync125())<<" , "<<std::bitset<1>(GetSync125())<<std::endl;
-  std::cout<<"Reserved: "<<std::to_string(GetReserved())<<" , "<<std::bitset<22>(GetReserved())<<std::endl;
-  std::cout<<"Counter: "<<std::to_string(GetCounter())<<" , "<<std::bitset<32>(GetCounter())<<std::endl;
-
-
+  std::cout<<"Channel: "<<+GetChannel()<<" , "<<std::bitset<4>(GetChannel())<<std::endl;
+  std::cout<<"Sync500: "<<+GetSync500()<<" , "<<std::bitset<1>(GetSync500())<<std::endl;
+  std::cout<<"Sync125: "<<+GetSync125()<<" , "<<std::bitset<1>(GetSync125())<<std::endl;
+  std::cout<<"Reserved: "<<+GetReserved()<<" , "<<std::bitset<22>(GetReserved())<<std::endl;
+  std::cout<<"Counter: "<<+GetCounter()<<" , "<<std::bitset<32>(GetCounter())<<std::endl;
 
 }
     
@@ -95,13 +93,13 @@ void IDODSync::SetCounter(uint32_t in){data[1] = in;}
 void IDODSync::Print(){
   
   std::cout<<std::bitset<32>(data[0])<<" , "<<std::bitset<32>(data[1])<<std::endl;
-  std::cout<<"Type: "<<std::to_string(GetType())<<" , "<<std::bitset<2>(GetType())<<std::endl;
+  std::cout<<"Type: "<<+GetType()<<" , "<<std::bitset<2>(GetType())<<std::endl;
   std::cout<<"BoardNum: "<<GetBoardNum()<<" , "<<std::bitset<1>(GetBoardNum())<<std::endl;
   std::cout<<"IDOD: "<<GetIDOD()<<" , "<<std::bitset<1>(GetIDOD())<<std::endl;
-  std::cout<<"Channel: "<<std::to_string(GetChannel())<<" , "<<std::bitset<4>(GetChannel())<<std::endl;
-  std::cout<<"Sync500: "<<std::to_string(GetSync500())<<" , "<<std::bitset<1>(GetSync500())<<std::endl;
-  std::cout<<"Sync125: "<<std::to_string(GetSync125())<<" , "<<std::bitset<1>(GetSync125())<<std::endl;
-  std::cout<<"Reserved: "<<std::to_string(GetReserved())<<" , "<<std::bitset<22>(GetReserved())<<std::endl;
-  std::cout<<"Counter: "<<std::to_string(GetCounter())<<" , "<<std::bitset<32>(GetCounter())<<std::endl;
+  std::cout<<"Channel: "<<+GetChannel()<<" , "<<std::bitset<4>(GetChannel())<<std::endl;
+  std::cout<<"Sync500: "<<+GetSync500()<<" , "<<std::bitset<1>(GetSync500())<<std::endl;
+  std::cout<<"Sync125: "<<+GetSync125()<<" , "<<std::bitset<1>(GetSync125())<<std::endl;
+  std::cout<<"Reserved: "<<+GetReserved()<<" , "<<std::bitset<22>(GetReserved())<<std::endl;
+  std::cout<<"Counter: "<<+GetCounter()<<" , "<<std::bitset<32>(GetCounter())<<std::endl;
 
 }

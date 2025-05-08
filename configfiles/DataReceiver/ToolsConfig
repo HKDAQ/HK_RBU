@@ -1,0 +1,4 @@
+#test1 DummyTool configfiles/DataReceiver/DummyToolConfig
+#test2 DummyTool configfiles/DataReceiver/DummyToolConfig
+JobManager JobManager Null
+DataReceiver DataReceiver Null
