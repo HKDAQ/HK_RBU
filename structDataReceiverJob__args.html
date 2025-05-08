@@ -84,17 +84,17 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a2744f56f22acd3e7a89615196c57bd3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">pointer to central data model to get agrigated electronics data collections <br /></td></tr>
 <tr class="separator:a2744f56f22acd3e7a89615196c57bd3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd68bb5af342627fb5979756ca830dd7"><td class="memItemLeft" align="right" valign="top"><a id="acd68bb5af342627fb5979756ca830dd7"></a>
-std::vector&lt; zmq::message_t &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#acd68bb5af342627fb5979756ca830dd7">messages</a></td></tr>
+std::vector&lt; zmq::message_t &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#acd68bb5af342627fb5979756ca830dd7">messages</a> = 0</td></tr>
 <tr class="memdesc:acd68bb5af342627fb5979756ca830dd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">vector of input messages from electronics to be processed <br /></td></tr>
 <tr class="separator:acd68bb5af342627fb5979756ca830dd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb03ba2e710dec0db753067ec42df1a8"><td class="memItemLeft" align="right" valign="top"><a id="adb03ba2e710dec0db753067ec42df1a8"></a>
-Pool&lt; std::vector&lt; zmq::message_t &gt; &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#adb03ba2e710dec0db753067ec42df1a8">message_pool</a></td></tr>
+Pool&lt; std::vector&lt; zmq::message_t &gt; &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#adb03ba2e710dec0db753067ec42df1a8">message_pool</a> = 0</td></tr>
 <tr class="memdesc:adb03ba2e710dec0db753067ec42df1a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">message pool to return used message vectors to to save reallocation <br /></td></tr>
 <tr class="separator:adb03ba2e710dec0db753067ec42df1a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5ec28e6c8573d84d148f5e9f2a9a595"><td class="memItemLeft" align="right" valign="top"><a id="ad5ec28e6c8573d84d148f5e9f2a9a595"></a>
-<a class="el" href="classRAWDAQHeader.html">RAWDAQHeader</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#ad5ec28e6c8573d84d148f5e9f2a9a595">daq_header</a> = 0</td></tr>
-<tr class="memdesc:ad5ec28e6c8573d84d148f5e9f2a9a595"><td class="mdescLeft">&#160;</td><td class="mdescRight">pointer to be assigned to daq header message when decoded <br /></td></tr>
-<tr class="separator:ad5ec28e6c8573d84d148f5e9f2a9a595"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afae6fb1dc1d8defbece6ec43912f416e"><td class="memItemLeft" align="right" valign="top"><a id="afae6fb1dc1d8defbece6ec43912f416e"></a>
+<a class="el" href="classDAQHeader.html">DAQHeader</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#afae6fb1dc1d8defbece6ec43912f416e">daq_header</a> = 0</td></tr>
+<tr class="memdesc:afae6fb1dc1d8defbece6ec43912f416e"><td class="mdescLeft">&#160;</td><td class="mdescRight">pointer to be assigned to daq header message when decoded <br /></td></tr>
+<tr class="separator:afae6fb1dc1d8defbece6ec43912f416e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af300f1b41178532f2a25b442f551529e"><td class="memItemLeft" align="right" valign="top"><a id="af300f1b41178532f2a25b442f551529e"></a>
 uint32_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#af300f1b41178532f2a25b442f551529e">words</a> = 0</td></tr>
 <tr class="memdesc:af300f1b41178532f2a25b442f551529e"><td class="mdescLeft">&#160;</td><td class="mdescRight">pointer to array of words in the electronics messages <br /></td></tr>
@@ -119,10 +119,10 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#ac41c3b805af15d706b18c5335872a9e2">start_pos</a> = 0</td></tr>
 <tr class="memdesc:ac41c3b805af15d706b18c5335872a9e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">position of the first data object in words that hasnt yet been added to collections <br /></td></tr>
 <tr class="separator:ac41c3b805af15d706b18c5335872a9e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa47b64da93c92d3f1ebf16d2300874fa"><td class="memItemLeft" align="right" valign="top"><a id="aa47b64da93c92d3f1ebf16d2300874fa"></a>
-<a class="el" href="classRAWIDODHit.html">RAWIDODHit</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#aa47b64da93c92d3f1ebf16d2300874fa">tmp_hit</a> = 0</td></tr>
-<tr class="memdesc:aa47b64da93c92d3f1ebf16d2300874fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">pointer for use in decoding hit words <br /></td></tr>
-<tr class="separator:aa47b64da93c92d3f1ebf16d2300874fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65f2ddcfcd6c5a317e16ae956e293d44"><td class="memItemLeft" align="right" valign="top"><a id="a65f2ddcfcd6c5a317e16ae956e293d44"></a>
+<a class="el" href="classRAWrIDODHit.html">RAWrIDODHit</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#a65f2ddcfcd6c5a317e16ae956e293d44">tmp_hit</a> = 0</td></tr>
+<tr class="memdesc:a65f2ddcfcd6c5a317e16ae956e293d44"><td class="mdescLeft">&#160;</td><td class="mdescRight">pointer for use in decoding hit words <br /></td></tr>
+<tr class="separator:a65f2ddcfcd6c5a317e16ae956e293d44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa35aee619af231768079879396803d4b"><td class="memItemLeft" align="right" valign="top"><a id="aa35aee619af231768079879396803d4b"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDataReceiverJob__args.html#aa35aee619af231768079879396803d4b">current_word</a> = 0</td></tr>
 <tr class="memdesc:aa35aee619af231768079879396803d4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">current word being processed <br /></td></tr>

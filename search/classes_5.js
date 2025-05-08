@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['timeslice_85',['TimeSlice',['../structTimeSlice.html',1,'']]],
-  ['tpuhit_86',['TPUHit',['../classTPUHit.html',1,'']]]
+  ['timeslice_89',['TimeSlice',['../structTimeSlice.html',1,'']]],
+  ['tpuhit_90',['TPUHit',['../classTPUHit.html',1,'']]]
 ];
