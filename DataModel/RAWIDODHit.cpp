@@ -1,5 +1,38 @@
 #include <RAWIDODHit.h>
 
+namespace {
+  constexpr uint32_t TYPE_MASK      = 0b11000000000000000000000000000000;
+  constexpr uint32_t BOARD_NUM_MASK  = 0b00100000000000000000000000000000;
+  constexpr uint32_t IDOD_MASK      = 0b00010000000000000000000000000000;
+  constexpr uint32_t CHANNEL_MASK   = 0b00001111000000000000000000000000;
+  constexpr uint32_t COARSE_MASK    = 0b00000000111111110000000000000000;
+  constexpr uint32_t FINE_MASK      = 0b00000000000000001111111111111111;
+
+  constexpr uint32_t SUB_HITS_MASK   = 0b11111000000000000000000000000000;
+  constexpr uint32_t TDC_ERR_MASK    = 0b00000100000000000000000000000000;
+  constexpr uint32_t PED_MASK       = 0b00000010000000000000000000000000;
+  constexpr uint32_t GAIN_MASK      = 0b00000001000000000000000000000000;
+  constexpr uint32_t CHARGE_MASK    = 0b00000000111111111111000000000000;
+  constexpr uint32_t STOP_MASK      = 0b00000000000000000000111111111111;
+
+  /*
+  constexpr uint32_t TYPE_MASK      = 0xC0000000;
+  constexpr uint32_t BOARDNUM_MASK  = 0x20000000;
+  constexpr uint32_t IDOD_MASK      = 0x10000000;
+  constexpr uint32_t CHANNEL_MASK   = 0x0F000000;
+  constexpr uint32_t COARSE_MASK    = 0x00FF0000;
+  constexpr uint32_t FINE_MASK      = 0x0000FFFF;
+
+  constexpr uint32_t SUBHITS_MASK   = 0xF8000000;
+  constexpr uint32_t TDCERR_MASK    = 0x04000000;
+  constexpr uint32_t PED_MASK       = 0x02000000;
+  constexpr uint32_t GAIN_MASK      = 0x01000000;
+  constexpr uint32_t CHARGE_MASK    = 0x00FFF000;
+  constexpr uint32_t STOP_MASK      = 0x00000FFF;
+  */
+}
+
+
 RAWIDODHit::RAWIDODHit(void* pointer){
   
   data = reinterpret_cast<uint32_t*>(pointer);
@@ -11,22 +44,22 @@ RAWIDODHit::RAWIDODHit(uint32_t* pointer){
 
 }
 
-uint8_t RAWIDODHit::GetType(){ return data[0] >> 30;}
-bool RAWIDODHit::GetBoardNum(){ return ((data[0] >> 29) & 0b1);}
-bool RAWIDODHit::GetIDOD(){ return ((data[0] >> 28) & 0b1);}
-uint8_t RAWIDODHit::GetChannel(){return ((data[0] >> 24) & 0b1111);}
-uint8_t RAWIDODHit::GetCoarse(){return ((data[0] >> 16) & 0b11111111);}
-uint16_t RAWIDODHit::GetFine(){return (data[0] & 0b1111111111111111);}
-uint8_t RAWIDODHit::GetNumSubHits(){return ((data[1] >> 27) & 0b11111);}
-bool RAWIDODHit::GetTDCError(){return ((data[1] >> 26) & 0b1);}
-bool RAWIDODHit::GetPed(){return ((data[1] >> 25) & 0b1);}
-bool RAWIDODHit::GetGain(){return ((data[1] >> 24) & 0b1);}
-uint16_t RAWIDODHit::GetCharge(){return ((data[1] >> 12) & 0b111111111111);}
-uint16_t RAWIDODHit::GetStop(){return (data[1] & 0b111111111111);}
-size_t RAWIDODHit::GetSize(){ return 64 + ( (GetNumSubHits()>15) ? 480 : (GetNumSubHits() * 32));}
-size_t RAWIDODHit::GetWords(){ return 2 + ( (GetNumSubHits()>15) ? 15 : (GetNumSubHits()) );}
+uint8_t RAWIDODHit::GetType() const { return data[0] >> 30;}
+bool RAWIDODHit::GetBoardNum() const { return ((data[0] & BOARD_NUM_MASK) >> 29);}
+bool RAWIDODHit::GetIDOD() const { return ((data[0] & IDOD_MASK) >> 28);}
+uint8_t RAWIDODHit::GetChannel() const {return ((data[0] & CHANNEL_MASK) >> 24);}
+uint8_t RAWIDODHit::GetCoarse() const {return ((data[0] & COARSE_MASK) >> 16);}
+uint16_t RAWIDODHit::GetFine() const {return (data[0] & FINE_MASK);}
+uint8_t RAWIDODHit::GetNumSubHits() const {return ((data[1] & SUB_HITS_MASK) >> 27);}
+bool RAWIDODHit::GetTDCError() const {return ((data[1] & TDC_ERR_MASK) >> 26);}
+bool RAWIDODHit::GetPed() const {return ((data[1] & PED_MASK) >> 25);}
+bool RAWIDODHit::GetGain() const {return ((data[1] & GAIN_MASK) >> 24);}
+uint16_t RAWIDODHit::GetCharge() const {return ((data[1] & CHARGE_MASK) >> 12);}
+uint16_t RAWIDODHit::GetStop() const {return (data[1] & STOP_MASK);}
+size_t RAWIDODHit::GetSize() const { return 64 + ( (GetNumSubHits()>15) ? 480 : (GetNumSubHits() * 32));}
+size_t RAWIDODHit::GetWords() const { return 2 + ( (GetNumSubHits()>15) ? 15 : (GetNumSubHits()) );}
 
-void RAWIDODHit::Print(){
+void RAWIDODHit::Print() const {
   
   std::cout<<std::bitset<32>(data[0])<<" , "<<std::bitset<32>(data[1])<<std::endl;
   std::cout<<"Type: "<<std::to_string(GetType())<<" , "<<std::bitset<2>(GetType())<<std::endl;
@@ -62,44 +95,44 @@ IDODHit::IDODHit(uint8_t coarse, uint16_t fine){
   SetType(0b11);
 }
 
-uint8_t IDODHit::GetType(){ return data.at(0) >> 30;}
-bool IDODHit::GetBoardNum(){ return ((data.at(0) >> 29) & 0b1);}
-bool IDODHit::GetIDOD(){ return ((data.at(0) >> 28) & 0b1);}
-uint8_t IDODHit::GetChannel(){return ((data.at(0) >> 24) & 0b1111);}
-uint8_t IDODHit::GetCoarse(){return ((data.at(0) >> 16) & 0b11111111);}
-uint16_t IDODHit::GetFine(){return (data.at(0) & 0b1111111111111111);}
-uint8_t IDODHit::GetNumSubHits(){return ((data.at(1) >> 27) & 0b11111);}
-bool IDODHit::GetTDCError(){return ((data.at(1) >> 26) & 0b1);}
-bool IDODHit::GetPed(){return ((data.at(1) >> 25) & 0b1);}
-bool IDODHit::GetGain(){return ((data.at(1) >> 24) & 0b1);}
-uint16_t IDODHit::GetCharge(){return ((data.at(1) >> 12) & 0b111111111111);}
-uint16_t IDODHit::GetStop(){return (data.at(1) & 0b111111111111);}
-size_t IDODHit::GetSize(){ return 64 + ( (GetNumSubHits()>15) ? 480 : (GetNumSubHits() * 32));}
-size_t IDODHit::GetWords(){ return 2 + ( (GetNumSubHits()>15) ? 15 : (GetNumSubHits()) );}
-uint32_t* IDODHit::GetSubHits() { 
+uint8_t IDODHit::GetType() const { return data.at(0) >> 30;}
+bool IDODHit::GetBoardNum() const { return ((data.at(0) & BOARD_NUM_MASK) >> 29);}
+bool IDODHit::GetIDOD() const { return ((data.at(0) & IDOD_MASK) >> 28);}
+uint8_t IDODHit::GetChannel() const {return ((data.at(0) & CHANNEL_MASK) >> 24);}
+uint8_t IDODHit::GetCoarse() const {return ((data.at(0) & COARSE_MASK) >> 16);}
+uint16_t IDODHit::GetFine() const {return (data.at(0) & FINE_MASK);}
+uint8_t IDODHit::GetNumSubHits() const {return ((data.at(1) & SUB_HITS_MASK) >> 27);}
+bool IDODHit::GetTDCError() const {return ((data.at(1) & TDC_ERR_MASK) >> 26);}
+bool IDODHit::GetPed() const {return ((data.at(1) & PED_MASK) >> 25);}
+bool IDODHit::GetGain() const {return ((data.at(1) & GAIN_MASK) >> 24);}
+uint16_t IDODHit::GetCharge() const {return ((data.at(1) & CHARGE_MASK) >> 12);}
+uint16_t IDODHit::GetStop() const {return (data.at(1) & STOP_MASK);}
+size_t IDODHit::GetSize() const { return 64 + ( (GetNumSubHits()>15) ? 480 : (GetNumSubHits() * 32));}
+size_t IDODHit::GetWords() const { return 2 + ( (GetNumSubHits()>15) ? 15 : (GetNumSubHits()) );}
+uint32_t* IDODHit::GetSubHits(){ 
   if(GetNumSubHits() == 0) return 0;
   return &data.at(3);
 }
-std::vector<uint32_t>* IDODHit::GetData(){return &data;}
+std::vector<uint32_t>* IDODHit::GetData(){ return &data;}
 
-void IDODHit::SetType(uint8_t in){ data.at(0) = (data.at(0) & 0b00111111111111111111111111111111) | (((uint32_t)in & 0b11) <<30 );} 
-void IDODHit::SetBoardNum(bool in){data.at(0) = (data.at(0) & 0b11011111111111111111111111111111) | (((uint32_t)in & 0b1) <<29 );} 
-void IDODHit::SetIDOD(bool in){data.at(0) = (data.at(0) & 0b11101111111111111111111111111111) | (((uint32_t)in & 0b1) <<28 );}
-void IDODHit::SetChannel(uint8_t in){data.at(0) = (data.at(0) & 0b11110000111111111111111111111111) | (((uint32_t)in & 0b1111) <<24 );}
-void IDODHit::SetCoarse(uint8_t in){data.at(0) = (data.at(0) & 0b11111111000000001111111111111111) | (((uint32_t)in) <<16 );}
-void IDODHit::SetFine(uint16_t in){data.at(0) = (data.at(0) & 0b11111111111111110000000000000000) | ((uint32_t)in);}
+void IDODHit::SetType(uint8_t in){ data.at(0) = (data.at(0) & ~TYPE_MASK) | (((uint32_t)in & 0b11) <<30 );} 
+void IDODHit::SetBoardNum(bool in){data.at(0) = (data.at(0) & ~BOARD_NUM_MASK) | (((uint32_t)in & 0b1) <<29 );} 
+void IDODHit::SetIDOD(bool in){data.at(0) = (data.at(0) & ~IDOD_MASK) | (((uint32_t)in & 0b1) <<28 );}
+void IDODHit::SetChannel(uint8_t in){data.at(0) = (data.at(0) & ~CHANNEL_MASK) | (((uint32_t)in & 0b1111) <<24 );}
+void IDODHit::SetCoarse(uint8_t in){data.at(0) = (data.at(0) & ~COARSE_MASK) | (((uint32_t)in) <<16 );}
+void IDODHit::SetFine(uint16_t in){data.at(0) = (data.at(0) & ~FINE_MASK) | ((uint32_t)in);}
 void IDODHit::SetNumSubHits(uint8_t in){
   if(in>15) data.resize(17);  
   else data.resize(2+in);
-  data.at(1) = (data.at(1) & 0b00000111111111111111111111111111) | (((uint32_t)in & 0b11111) <<27 );
+  data.at(1) = (data.at(1) & ~SUB_HITS_MASK) | (((uint32_t)in & 0b11111) <<27 );
 }
-void IDODHit::SetTDCError(bool in){data.at(1) = (data.at(1) & 0b11111011111111111111111111111111) | (((uint32_t)in & 0b1) <<26 );}
-void IDODHit::SetPed(bool in){data.at(1) = (data.at(1) & 0b11111101111111111111111111111111) | (((uint32_t)in & 0b1) <<25 );}
-void IDODHit::SetGain(bool in){data.at(1) = (data.at(1) & 0b11111110111111111111111111111111) | (((uint32_t)in & 0b1) <<24 );}
-void IDODHit::SetCharge(uint16_t in){data.at(1) = (data.at(1) & 0b11111111000000000000111111111111) | (((uint32_t)in & 0b111111111111) <<12 );}
-void IDODHit::SetStop(uint16_t in){data.at(1) = (data.at(1) & 0b11111111111111111111000000000000) | (((uint32_t)in & 0b111111111111) );}
+void IDODHit::SetTDCError(bool in){data.at(1) = (data.at(1) & ~TDC_ERR_MASK) | (((uint32_t)in & 0b1) <<26 );}
+void IDODHit::SetPed(bool in){data.at(1) = (data.at(1) & ~PED_MASK) | (((uint32_t)in & 0b1) <<25 );}
+void IDODHit::SetGain(bool in){data.at(1) = (data.at(1) & ~GAIN_MASK) | (((uint32_t)in & 0b1) <<24 );}
+void IDODHit::SetCharge(uint16_t in){data.at(1) = (data.at(1) & ~CHARGE_MASK) | (((uint32_t)in & 0b111111111111) <<12 );}
+void IDODHit::SetStop(uint16_t in){data.at(1) = (data.at(1) & ~STOP_MASK) | (((uint32_t)in & 0b111111111111) );}
 		      
-void IDODHit::Print(){
+void IDODHit::Print() const {
 
   std::cout<<std::bitset<32>(data[0])<<" , "<<std::bitset<32>(data[1])<<std::endl;
   std::cout<<"Type: "<<std::to_string(GetType())<<" , "<<std::bitset<2>(GetType())<<std::endl;

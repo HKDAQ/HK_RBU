@@ -15,20 +15,20 @@ class RAWIDODSync{
  public:
   RAWIDODSync(void* pointer);
   RAWIDODSync(uint32_t* pointer);  
-  uint8_t GetType();
-  bool GetBoardNum();
-  bool GetIDOD();
-  uint8_t GetChannel();
-  bool GetSync500();
-  bool GetSync125();
-  uint32_t GetReserved();
-  uint32_t GetCounter();
+  uint8_t GetType() const;
+  bool GetBoardNum() const;
+  bool GetIDOD() const;
+  uint8_t GetChannel() const;
+  bool GetSync500() const;
+  bool GetSync125() const;
+  uint32_t GetReserved() const;
+  uint32_t GetCounter() const;
   static bool GetSync500(uint32_t* word);
   static bool GetSync125(uint32_t* word);
   static uint32_t GetCounter(uint32_t* word);
   static size_t GetSize();
   static size_t GetWords();
-  void Print();  
+  void Print() const;  
   
  private:
   
@@ -41,14 +41,14 @@ class IDODSync{
  public:
   IDODSync();
   IDODSync(uint32_t counter);  
-  uint8_t GetType();
-  bool GetBoardNum();
-  bool GetIDOD();
-  uint8_t GetChannel();
-  bool GetSync500();
-  bool GetSync125();
-  uint32_t GetReserved();
-  uint32_t GetCounter();
+  uint8_t GetType() const;
+  bool GetBoardNum() const;
+  bool GetIDOD() const;
+  uint8_t GetChannel() const;
+  bool GetSync500() const;
+  bool GetSync125() const;
+  uint32_t GetReserved() const;
+  uint32_t GetCounter() const;
   static size_t GetSize();
   static size_t GetWords();
   uint32_t* GetData();

@@ -16,21 +16,21 @@ class RAWIDODHit{
   
   RAWIDODHit(void* pointer);
   RAWIDODHit(uint32_t* pointer);  
-  uint8_t GetType();
-  bool GetBoardNum();
-  bool GetIDOD();
-  uint8_t GetChannel();
-  uint8_t GetCoarse();
-  uint16_t GetFine();
-  uint8_t GetNumSubHits();
-  bool GetTDCError();
-  bool GetPed();
-  bool GetGain();
-  uint16_t GetCharge();
-  uint16_t GetStop();
-  size_t GetSize();
-  size_t GetWords();
-  void Print();
+  uint8_t GetType() const;
+  bool GetBoardNum() const;
+  bool GetIDOD() const;
+  uint8_t GetChannel() const;
+  uint8_t GetCoarse() const;
+  uint16_t GetFine() const;
+  uint8_t GetNumSubHits() const;
+  bool GetTDCError() const;
+  bool GetPed() const;
+  bool GetGain() const;
+  uint16_t GetCharge() const;
+  uint16_t GetStop() const;
+  size_t GetSize() const;
+  size_t GetWords() const;
+  void Print() const;
   
  private:
   
@@ -44,20 +44,20 @@ class IDODHit{
   
   IDODHit();
   IDODHit(uint8_t coarse, uint16_t fine);  
-  uint8_t GetType();
-  bool GetBoardNum();
-  bool GetIDOD();
-  uint8_t GetChannel();
-  uint8_t GetCoarse();
-  uint16_t GetFine();
-  uint8_t GetNumSubHits();
-  bool GetTDCError();
-  bool GetPed();
-  bool GetGain();
-  uint16_t GetCharge();
-  uint16_t GetStop();
-  size_t GetSize();
-  size_t GetWords();
+  uint8_t GetType() const;
+  bool GetBoardNum() const;
+  bool GetIDOD() const;
+  uint8_t GetChannel() const;
+  uint8_t GetCoarse() const;
+  uint16_t GetFine() const;
+  uint8_t GetNumSubHits() const;
+  bool GetTDCError() const;
+  bool GetPed() const;
+  bool GetGain() const;
+  uint16_t GetCharge() const;
+  uint16_t GetStop() const;
+  size_t GetSize() const;
+  size_t GetWords() const;
   uint32_t* GetSubHits();
   std::vector<uint32_t>* GetData();
   
@@ -73,7 +73,7 @@ class IDODHit{
   void SetCharge(uint16_t in);
   void SetStop(uint16_t in);
 
-  void Print();
+  void Print() const;
   
  private:
 
