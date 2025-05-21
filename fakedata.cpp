@@ -29,6 +29,7 @@ int main(){
   
   zmq::context_t context(1);
   zmq::socket_t sock(context, ZMQ_DEALER);
+  sock.setsockopt(ZMQ_SNDHWM, 3);
   sock.bind("tcp://*:4455");
   
   while(true){
