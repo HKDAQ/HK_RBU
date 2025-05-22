@@ -21,7 +21,7 @@ int main(int argc, char *argv[]){
   std::chrono::high_resolution_clock::time_point last = start;
   uint32_t message_num=0;
   
-  DAQHeader header;
+  DAQHeader header(5,4);
   uint64_t ps;
   uint64_t ms;
   std::vector<uint32_t> data;
@@ -33,11 +33,11 @@ int main(int argc, char *argv[]){
   std::string port = argv[1];
   sock.bind("tcp://*:" + port);
   
-  while(true){
+  //  while(true){
 
     ms=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now()-last).count();
     
-    if(ms>(100/20)){
+    //if(ms>(100/20)){
       last = std::chrono::high_resolution_clock::now();
       ps=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now()-start).count() * 4;
       
@@ -47,8 +47,11 @@ int main(int argc, char *argv[]){
       message_num++;
       header.SetCoarseCounter((uint32_t)ps);
       header.SetCardID(rand() % 2000);
-      
-      for(size_t i=0; i < 100; i++){
+     
+      printf("header\n");
+      header.Print();
+      printf("\n\n");      
+      for(size_t i=0; i < 10; i++){
 	
 	//t1 = std::chrono::high_resolution_clock::now();
 	ps=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now()-start).count() * 4;
@@ -57,14 +60,20 @@ int main(int argc, char *argv[]){
 	//    std::cout<<std::bitset<9>(tmp.GetChannel())<<std::endl;
 	data.push_back(tmp.GetData()[0]);
 	data.push_back(tmp.GetData()[1]);
-	
-	for( size_t j=0; j< 240; j++){
+	printf("sync\n");
+	tmp.Print();
+	printf("\n\n");
+
+	for( size_t j=0; j< 1; j++){
 	  ps=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now()-start).count() * 4;
 	  
 	  IDODHit tmp2((uint8_t)ps, (uint16_t)(ps>>16));
 	  tmp2.SetPed(false);
 	  data.push_back(tmp2.GetData()->at(0));
 	  data.push_back(tmp2.GetData()->at(1));
+	  printf("hit\n");
+	  tmp2.Print();
+	  printf("\n\n");
 	}	
       }
 
@@ -81,26 +90,26 @@ int main(int argc, char *argv[]){
       sock.send(msg2);
 
       std::cout<<"sent data: "<<ms<<std::endl;
-    }
+      //    }
 
 
 
-}
+    //}
     
-  for(size_t i=0; i<10; i=i+2){ //data.size(); i++){
+    //  for(size_t i=0; i<10; i=i+2){ //data.size(); i++){
     
-    RAWIDODHit tmp(&data.at(i));
-    tmp.Print();
+    //RAWIDODHit tmp(&data.at(i));
+    // tmp.Print();
 //    std::bitset<32> tmp(data.at(i));
     //std::bitset<32> tmp2(data.at(i+1));
     //std::cout<<i<<": "<<data.at(i)<<", "<<data.at(i+1)<<": "<<tmp<<" "<<tmp2<<std::endl;
 
-  }
+//}
 
 
 
 
 
-  return 0;
+return 0;
 
 }

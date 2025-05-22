@@ -27,18 +27,15 @@ int main(int argc, char *argv[]){
   std::vector<uint32_t> data;
   data.reserve(50000);
   
-  zmq::context_t context(1);
+  zmq::context_t context(20);
   zmq::socket_t sock(context, ZMQ_DEALER);
   sock.setsockopt(ZMQ_SNDHWM, 3);
   std::string port = argv[1];
   sock.bind("tcp://*:" + port);
-  
-  while(true){
 
     ms=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now()-last).count();
     
-    if(ms>(100/20)){
-      last = std::chrono::high_resolution_clock::now();
+       last = std::chrono::high_resolution_clock::now();
       ps=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now()-start).count() * 4;
       
       data.clear();
@@ -58,7 +55,7 @@ int main(int argc, char *argv[]){
 	data.push_back(tmp.GetData()[0]);
 	data.push_back(tmp.GetData()[1]);
 	
-	for( size_t j=0; j< 240; j++){
+	for( size_t j=0; j< 24000; j++){
 	  ps=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now()-start).count() * 4;
 	  
 	  IDODHit tmp2((uint8_t)ps, (uint16_t)(ps>>16));
@@ -68,8 +65,14 @@ int main(int argc, char *argv[]){
 	}	
       }
 
-      zmq::message_t msg1(sizeof(header));
-      std::memcpy(msg1.data(), &header.GetData()[0], sizeof(header));
+
+  
+  while(true){
+    ms=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now()-last).count();
+  last = std::chrono::high_resolution_clock::now();
+
+  zmq::message_t msg1(sizeof(header));
+  std::memcpy(msg1.data(), &header.GetData()[0], sizeof(header));
 
       zmq::message_t msg2(data.size()*sizeof(uint32_t));
       std::memcpy(msg2.data(), data.data(), data.size()*sizeof(uint32_t));
@@ -81,11 +84,12 @@ int main(int argc, char *argv[]){
       sock.send(msg2);
 
       std::cout<<"sent data: "<<ms<<std::endl;
+
+
     }
 
 
 
-}
     
   for(size_t i=0; i<10; i=i+2){ //data.size(); i++){
     

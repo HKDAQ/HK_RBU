@@ -51,10 +51,10 @@ uint32_t* DAQHeader::GetData(){ return &data[0];}
 
 void DAQHeader::SetMessageNum(uint32_t in){ data[0] = in; }
 void DAQHeader::SetCoarseCounter(uint32_t in){ data[1] = in; }
-void DAQHeader::SetType(uint8_t in){ data[2] = (data[2] & ~TYPE_MASK) | (in & 0b11); } 
-void DAQHeader::SetCardID(uint16_t in){ data[2] = (data[2] & ~CAR_ID_MASK) | (in & 0b111111111111); }
-void DAQHeader::SetNumWords(uint16_t in){ data[2] = (data[2] & ~WORDS_MASK) | (in & 0b111111111111111); }
-void DAQHeader::SetFlags(uint8_t in){ data[2] = (data[2] & ~FLAGS_MASK); }
+void DAQHeader::SetType(uint8_t in){ data[2] = (data[2] & ~TYPE_MASK) | ((in & 0b11) << 30); } 
+void DAQHeader::SetCardID(uint16_t in){ data[2] = (data[2] & ~CAR_ID_MASK) | ((in & 0b111111111111) << 18 ); }
+void DAQHeader::SetNumWords(uint16_t in){ data[2] = (data[2] & ~WORDS_MASK) | ((in & 0b111111111111111) << 3); }
+void DAQHeader::SetFlags(uint8_t in){ data[2] = (data[2] & ~FLAGS_MASK) | (in & 0b111); }
 
 void DAQHeader::Print() const{
 
