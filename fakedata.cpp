@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
   
   zmq::context_t context(1);
   zmq::socket_t sock(context, ZMQ_DEALER);
-  sock.setsockopt(ZMQ_SNDHWM, 3);
+  sock.setsockopt(ZMQ_SNDHWM, 0);
   std::string port = argv[1];
   sock.bind("tcp://*:" + port);
   

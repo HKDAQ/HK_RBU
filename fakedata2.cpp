@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
   
   zmq::context_t context(20);
   zmq::socket_t sock(context, ZMQ_DEALER);
-  sock.setsockopt(ZMQ_SNDHWM, 3);
+  sock.setsockopt(ZMQ_SNDHWM, 0);
   std::string port = argv[1];
   sock.bind("tcp://*:" + port);
 
@@ -69,6 +69,7 @@ int main(int argc, char *argv[]){
   
   while(true){
     ms=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now()-last).count();
+    if(ms>5){
   last = std::chrono::high_resolution_clock::now();
 
   zmq::message_t msg1(sizeof(header));
@@ -85,7 +86,7 @@ int main(int argc, char *argv[]){
 
       std::cout<<"sent data: "<<ms<<std::endl;
 
-
+    }
     }
 
 

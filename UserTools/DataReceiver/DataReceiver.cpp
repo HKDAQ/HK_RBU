@@ -73,7 +73,7 @@ void DataReceiver::Thread(Thread_args* arg){
 
   DataReceiver_args* args=reinterpret_cast<DataReceiver_args*>(arg);
 
-
+  
   /////////////////////////// checking to see if period has lapsed to search for new connections and then connecting to anything new //////////////////////////////
   args->lapse = args->period -( boost::posix_time::microsec_clock::universal_time() - args->last);
   
@@ -81,6 +81,7 @@ void DataReceiver::Thread(Thread_args* arg){
     //printf("in lapse \n");
     args->num_connections = args->connections.size();
     //    if(args->m_util->UpdateConnections(args->service, args->sock, args->connections, args->data_port) > args->num_connections) args->m_data->services->SendLog("Info: New device connected", v_message); //add pmt id
+    if(args->service == "IDOD"){ //temporary delete later
     if(args->m_util->UpdateConnections("test", args->sock, args->connections, "4444") > args->num_connections) args->m_data->services->SendLog("Info: New device connected", v_message); //add pmt id
     if(args->m_util->UpdateConnections("test", args->sock, args->connections, "4445") > args->num_connections) args->m_data->services->SendLog("Info: New device connected", v_message); //add pmt id
     if(args->m_util->UpdateConnections("test", args->sock, args->connections, "4446") > args->num_connections) args->m_data->services->SendLog("Info: New device connected", v_message); //add pmt id
@@ -93,6 +94,7 @@ void DataReceiver::Thread(Thread_args* arg){
     if(args->m_util->UpdateConnections("test", args->sock, args->connections, "4453") > args->num_connections) args->m_data->services->SendLog("Info: New device connected", v_message); //add pmt id
     if(args->m_util->UpdateConnections("test", args->sock, args->connections, "4454") > args->num_connections) args->m_data->services->SendLog("Info: New device connected", v_message); //add pmt id
     if(args->m_util->UpdateConnections("test", args->sock, args->connections, "4455") > args->num_connections) args->m_data->services->SendLog("Info: New device connected", v_message); //add pmt id
+    }
     args->m_data->monitoring_store_mtx.lock();
     args->m_data->monitoring_store.Set("connected_"+args->service, args->num_connections);
     args->m_data->monitoring_store_mtx.unlock();
@@ -152,18 +154,21 @@ void DataReceiver::Thread(Thread_args* arg){
 
 
     // create job to process messages and send them to central thread pool    
-    args->tmp_job= args->job_pool.GetNew("DataReceive"); //new Job("DataReceive");
     //printf("d5\n");
+    args->tmp_job= args->job_pool.GetNew("DataReceive"); //new Job("DataReceive");
+    //printf("d5.1\n");
     if(args->tmp_job->data==0){
       //printf("d6\n");    
       args->tmp_data = new DataReceiverJob_args;
       args->tmp_job->data = args->tmp_data;
     }
-        else{
+    else{
       //printf("d7\n");
       args->tmp_data = reinterpret_cast<DataReceiverJob_args*>(args->tmp_job->data);
     } 
-       
+      
+    //printf("d7.1 %s\n",  args->tmp_job->m_id.c_str());
+    //if(args->tmp_job->m_id!="DataReceive") exit; 
     //printf("d7.5\n");
     args->tmp_data->messages = args->messages;
     //printf("d7.6\n");
@@ -287,8 +292,7 @@ void DataReceiver::LoadConfig(){
  mpmt_service = "test2";
  mpmt_data_port = 4444;
  search_period_sec = 5;
-
-
+  
   return;
 }
 
@@ -306,10 +310,10 @@ bool DataReceiver::VarifyConfig(){
 }
 
 bool DataReceiver::ProcessDataIDOD(void*& data){
-
+  //printf("in process IDOD\n");
   DataReceiverJob_args* args = reinterpret_cast<DataReceiverJob_args*>(data);
-
-  //printf("pstart\n");
+  
+  //priintf("pstart\n");
   /////////// freeing up variables from jobs last use ////////
   args->collections.clear(); 
   args->tpu_hit_collection.clear();
@@ -322,50 +326,64 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
   args->bad_sync = false;
   while(args->time_slices.size()) args->time_slices.pop();
   while(args->tpu_time_slices.size()) args->tpu_time_slices.pop();
+  args->pmt_counters.clear();
  //////////////////////////////////////////
 
-  //printf("p1\n");
+  //priintf("p1\n");
 
   args->daq_header = reinterpret_cast<DAQHeader*>(args->messages->at(1).data()); //decode DAQheader
-  //printf("size = %u\n",args->messages->at(1).size());
-  //printf("p1.1\n");
+  //priintf("size = %u\n",args->messages->at(1).size());
+  //priintf("p1.1\n");
   //std::cout<< args->daq_header->GetMessageNum()<<std::endl;
-  //printf("p1.2\n");
+  //priintf("p1.2\n");
+  //printf("header\n");
+  //args->daq_header->Print();
+  //printf("\n\n");  
+
+
+args->card_id = args->daq_header->GetCardID();
   // making special header packet to store cardid and first sync
-  args->header[1] = 0b01000000111111110000000000000000 |  args->daq_header->GetCardID();
+  args->header[1] = 0b01000000111111110000000000000000 |  args->card_id;
   args->header[2] = 0;   
   args->header[3] = 0;
 
-  //printf("p2\n"); 
+  args->m_data->card_counters[args->card_id]++;
+
+  //priintf("p2\n"); 
   args->words = reinterpret_cast<uint32_t*>(args->messages->at(2).data()); 
   
 
   /////////////// looping over data words extracting hits and local collection
   
   while(args->current_word < args->messages->at(2).size()/4){
-    //printf("p3 %u\n", args->current_word);
+    //priintf("p3 %u\n", args->current_word);
     switch (args->words[args->current_word] >>30){
     case 0b11 : //hits or ped object
-      //printf("p hit ped\n");
+      //priintf("p hit ped\n");
       if(((args->words[args->current_word+1] >> 25) & 0b1) == 0){ //hit data object 
-	//printf("f1\n");	
+	//priintf("f1\n");	
 	args->tmp_hit = reinterpret_cast<RAWrIDODHit*>(&args->words[args->current_word]);
-	//printf("f2\n");
+	//priintf("f2\n");
 	
-	uint32_t pmt_info =  ((uint32_t)args->daq_header->GetType() << 18 ) | ((args->daq_header->GetCardID() & 0b111111111111) << 6) | (args->words[args->current_word] >> 24); //this will change if big endian
+	//printf("hit\n");
+	//args->tmp_hit->Print();
+	//printf("\n\n");
+
+	uint32_t pmt_info =  ((uint32_t)args->daq_header->GetType() << 18 ) | ((args->card_id & 0b111111111111) << 6) | (args->words[args->current_word] >> 24); //this will change if big endian
 	uint16_t pmtid = args->m_data->pmt_id_map[pmt_info];
 	uint32_t time = (((args->current_time & 0b00000000000000001111111100000000) | (args->tmp_hit->GetCoarse() & 0b11111111)) << 16 ) | args->tmp_hit->GetFine() ;
-	//printf("f3\n");
+	//priintf("f3\n");
 	// reference: TPUHit(uint8_t type, bool bad_sync, bool gain, uint16_t charge, uint16_t pmt_id, uint32_t time){
 	args->tpu_hit_collection[args->bin].emplace_back(0b00, args->bad_sync, args->tmp_hit->GetGain(), args->tmp_hit->GetCharge(), pmtid , time);
-	//printf("f4\n");
+	//priintf("f4\n");
 	args->current_word+=args->tmp_hit->GetWords();
-	//printf("f5\n");
+	args->pmt_counters[pmtid]++;	
+	//priintf("f5\n");
 	break;
       }
     
       //ped data object
-      //printf("p ped\n");
+      //priintf("p ped\n");
       args->bin = ((args->m_data->current_counter & -281474976710656L) >> 26 ) | (((args->current_time) >> 10) & 0b11111111111111111111111111111000) | (RAWIDODPed::GetCoarse(&args->words[args->current_word]) >> 21);
 
       if(args->collections.count(args->bin)==0) {
@@ -384,7 +402,11 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
       break;
     
     case 0b10 : //sync data object
-      //printf("p sync\n");
+      //priintf("p sync\n");
+      //printf("sync\n");
+      //reinterpret_cast<IDODSync*>(&args->words[args->current_word])->Print();
+      //printf("\n\n");
+      
       args->bin = ((args->m_data->current_counter & -281474976710656L) >> 26 ) | (RAWIDODSync::GetCounter(&args->words[args->current_word]) >> 10);
       args->current_time = RAWIDODSync::GetCounter(&args->words[args->current_word]);
       args->bad_sync = RAWIDODSync::GetSync500(&args->words[args->current_word]) && RAWIDODSync::GetSync125(&args->words[args->current_word]);
@@ -404,7 +426,7 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
       break;
       
     case 0b00: //error
-      //printf("p error\n");
+      //priintf("p error\n");
       args->bin = ((args->m_data->current_counter & -281474976710656L) >> 26 ) | ( RAWIDODError::GetCoarse(&args->words[args->current_word]) >> 10);
       if(args->collections.count(args->bin)==0){
 	args->header[2] = args->bin >> 6;
@@ -422,7 +444,7 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
       break;
       
     case 0b01: //special data object
-      //printf("p special\n");
+      //priintf("p special\n");
       args->bin = ((args->m_data->current_counter & -281474976710656L) >> 26 ) | ( RAWIDODSpecial::GetCoarse(&args->words[args->current_word]) >> 10);
       if(args->collections.count(args->bin)==0){
 	args->header[2] = args->bin >> 6;
@@ -442,33 +464,33 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
     
   }
 
-  //printf("p4\n");
+  //priintf("p4\n");
 
   // need to add the last words onto collecitons as currently only when bin bnumber changes
   args->current_word++;
   args->collections[args->current_bin].insert(args->collections[args->current_bin].end(), &args->words[args->start_pos], &args->words[args->start_pos] + (args->current_word - args->start_pos));
  
-  //printf("p5\n");
+  //priintf("p5\n");
   //now uplaod to central agrigation collection!!!
   // find the relavent bins to avoid locking whole collection all the time  
   args->m_data->aggrigation_buffer_mtx.lock();
   for(std::unordered_map<uint64_t, std::vector<uint32_t> >::iterator it=args->collections.begin(); it!=args->collections.end(); it++){
     
-    if( args->m_data->aggrigation_buffer[it->first] == 0)  args->m_data->aggrigation_buffer[it->first] = new TimeSlice;
+    if( args->m_data->aggrigation_buffer[it->first] == 0)  args->m_data->aggrigation_buffer[it->first] = args->m_data->time_slice_pool.GetNew();
     args->time_slices.push(args->m_data->aggrigation_buffer[it->first]);
     
   }
 
   for(std::unordered_map<uint64_t, std::vector<TPUHit> >::iterator it = args->tpu_hit_collection.begin(); it!=args->tpu_hit_collection.end() ; it++){
  
-    if( args->m_data->aggrigation_buffer[it->first] == 0)  args->m_data->aggrigation_buffer[it->first] = new TimeSlice;   
+    if( args->m_data->aggrigation_buffer[it->first] == 0)  args->m_data->aggrigation_buffer[it->first] =  args->m_data->time_slice_pool.GetNew();;   
     args->tpu_time_slices.push(args->m_data->aggrigation_buffer[it->first]);
     
   }
   
   args->m_data->aggrigation_buffer_mtx.unlock();
 
-  //printf("p6\n");
+  //priintf("p6\n");
   // upload the raw hits
   for(std::unordered_map<uint64_t, std::vector<uint32_t> >::iterator it=args->collections.begin(); it!=args->collections.end(); it++){
     
@@ -477,7 +499,7 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
     args->time_slices.front()->raw_idod_mtx.unlock();
     args->time_slices.pop();
   }
-  //printf("p7\n");
+  //priintf("p7\n");
   //upload reduced tpu hits
   for(std::unordered_map<uint64_t, std::vector<TPUHit> >::iterator it = args->tpu_hit_collection.begin(); it!=args->tpu_hit_collection.end() ; it++){
     
@@ -486,32 +508,38 @@ bool DataReceiver::ProcessDataIDOD(void*& data){
     args->tpu_time_slices.front()->reduced_hits_mtx.unlock();
     args->tpu_time_slices.pop();
   }
-  //printf("p8\n");
+  //priintf("p8\n");
   //clearing up
   while(args->time_slices.size()) args->time_slices.pop();
   while(args->tpu_time_slices.size()) args->tpu_time_slices.pop();
-  //printf("p9\n");  
+  //priintf("p9\n");  
   args->collections.clear();
   args->tpu_hit_collection.clear();
+
+  for( std::unordered_map<uint16_t, uint64_t>::iterator it=args->pmt_counters.begin(); it!= args->pmt_counters.end(); it++){
+
+    args->m_data->pmt_counters[it->first]+=it->second;
+
+  }
   
   args->messages->clear();
-  //printf("p10\n");
+  //priintf("p10\n");
   //  delete args->messages;
   args->message_pool->Add(args->messages); //returning messages to pool for reuse
-  //printf("p11\n");
+  //priintf("p11\n");
   args->messages=0;
   //  args->m_data=0;
   //delete args;
   //args=0;
   //data=0;
-  //printf("pend\n");
+  //priintf("pend\n");
   
   return true;
 }
 
 void DataReceiver::ProcessDataFailIDOD(void*& data){
 
-  //printf("pestart\n");
+  //priintf("pestart\n");
 
   if(data!=0){  
     DataReceiverJob_args* args = reinterpret_cast<DataReceiverJob_args*>(data);
@@ -527,7 +555,7 @@ void DataReceiver::ProcessDataFailIDOD(void*& data){
     //args=0;
     //data=0;
   }
-  //printf("peend\n");
+  //priintf("peend\n");
 
   
 }

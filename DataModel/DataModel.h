@@ -2,14 +2,16 @@
 #define DATAMODEL_H
 
 #include <map>
+#include <unordered_map>
 #include <string>
 #include <vector>
 
 //#include "TTree.h"
 
+#include <atomic>
 #include "Store.h"
-#include "BoostStore.h"
-//#include "DAQLogging.h"
+//#include "BoostStore.h"
+#include "DAQLogging.h"
 #include "DAQUtilities.h"
 #include "SlowControlCollection.h"
 #include "DAQDataModelBase.h"
@@ -22,6 +24,7 @@
 #include <zmq.hpp>
 #include <mutex>
 #include <TimeSlice.h>
+
 
 using namespace ToolFramework;
 
@@ -48,18 +51,21 @@ class DataModel : public DAQDataModelBase {
   JobQueue job_queue;
   
   uint32_t thread_cap = 20;
-  uint32_t num_threads = 0;
+  std::atomic<uint32_t> num_threads{0};
+
+  std::unordered_map<uint16_t, std::atomic<uint64_t> > card_counters;
+  std::unordered_map<uint16_t, std::atomic<uint64_t> > pmt_counters;
   
   Store monitoring_store;
   std::mutex monitoring_store_mtx;
+
+  Pool<TimeSlice> time_slice_pool;
   
   std::map<uint64_t, TimeSlice*> aggrigation_buffer;
   std::mutex aggrigation_buffer_mtx;
 
   std::map<uint64_t, TimeSlice*> main_buffer;
   std::mutex main_buffer_mtx;
-
-  Pool<TimeSlice> time_slice_pool;  
 
   std::map<uint32_t, uint16_t> pmt_id_map;
 

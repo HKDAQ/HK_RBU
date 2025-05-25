@@ -18,7 +18,6 @@ bool JobManager::Initialise(std::string configfile, DataModel &data){
   
   worker_pool_manager= new WorkerPoolManager(m_data->job_queue, &m_thread_cap, &(m_data->thread_cap), &(m_data->num_threads), nullptr, self_serving);
   
-  
   ExportConfiguration();
   
   return true;
@@ -40,11 +39,23 @@ bool JobManager::Execute(){
   m_data->monitoring_store_mtx.unlock();
   // printf("jobmanager q:t = %d:%d\n", m_data->job_queue.size(), worker_pool_manager->NumThreads());
   usleep(1000);
-  sleep(5);
+    sleep(5);
   worker_pool_manager->PrintStats();
   printf("buffersize %u\n", m_data->aggrigation_buffer.size());
   if(worker_pool_manager->NumThreads()==m_thread_cap)  m_data->services->SendLog("Warning: Worker Pool Threads Maxed" , 0); //make this a warning
-  // std::cout<<"NumThreads="<<worker_pool_manager->NumThreads()<<std::endl;
+  std::cout<<"globalThreads="<<m_data->num_threads<<std::endl;
+
+  std::cout<<std::endl<<"card counters:"<<std::endl;
+  for(std::unordered_map<uint16_t, std::atomic<uint64_t> >::iterator it=m_data->card_counters.begin(); it!= m_data->card_counters.end(); it++){
+    //    std::cout<<it->first<<":"<<it->second<<std::endl;
+  }
+
+  std::cout<<std::endl<<"pmt counters:"<<std::endl;
+  for(std::unordered_map<uint16_t, std::atomic<uint64_t> >::iterator it=m_data->pmt_counters.begin(); it!= m_data->pmt_counters.end(); it++){
+    //std::cout<<it->first<<":"<<it->second<<std::endl;
+  }
+
+
   //sleep(1);
   
   return true;
@@ -62,8 +73,8 @@ bool JobManager::Finalise(){
 void JobManager::LoadConfig(){
   
   if(!m_variables.Get("verbose",m_verbose)) m_verbose=1;
-  if(!m_variables.Get("thread_cap",m_thread_cap)) m_thread_cap=20;
-  if(!m_variables.Get("global_thread_cap",m_data->thread_cap)) m_data->thread_cap=20; 
+  if(!m_variables.Get("thread_cap",m_thread_cap)) m_thread_cap=200;
+  if(!m_variables.Get("global_thread_cap",m_data->thread_cap)) m_data->thread_cap=200; 
   //  m_thread_cap=200;
   //m_data->thread_cap=200;
 }

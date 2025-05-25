@@ -40,6 +40,8 @@ struct DataReceiverJob_args:Thread_args{
   bool bad_sync = false;
   std::queue<TimeSlice*> time_slices;
   std::queue<TimeSlice*> tpu_time_slices;
+  uint16_t card_id = 0;
+  std::unordered_map<uint16_t, uint64_t> pmt_counters;
 
 };
 
