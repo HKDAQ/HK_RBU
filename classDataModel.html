@@ -99,15 +99,24 @@ JobQueue&#160;</td><td class="memItemRight" valign="bottom"><b>job_queue</b></td
 <tr class="memitem:ac4edacffc475bf54e646f9899ba8241c"><td class="memItemLeft" align="right" valign="top"><a id="ac4edacffc475bf54e646f9899ba8241c"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>thread_cap</b> = 20</td></tr>
 <tr class="separator:ac4edacffc475bf54e646f9899ba8241c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a103930f6284aabef7bd40eeb26d6d40a"><td class="memItemLeft" align="right" valign="top"><a id="a103930f6284aabef7bd40eeb26d6d40a"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>num_threads</b> = 0</td></tr>
-<tr class="separator:a103930f6284aabef7bd40eeb26d6d40a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a495991baaf583f28b0dc17f6075d9172"><td class="memItemLeft" align="right" valign="top"><a id="a495991baaf583f28b0dc17f6075d9172"></a>
+std::atomic&lt; uint32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>num_threads</b> {0}</td></tr>
+<tr class="separator:a495991baaf583f28b0dc17f6075d9172"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a22ebc07f132f7a1ac327f9235f711d"><td class="memItemLeft" align="right" valign="top"><a id="a3a22ebc07f132f7a1ac327f9235f711d"></a>
+std::unordered_map&lt; uint16_t, std::atomic&lt; uint64_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>card_counters</b></td></tr>
+<tr class="separator:a3a22ebc07f132f7a1ac327f9235f711d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2db9e2eb3e3d342a0644a2241c811c79"><td class="memItemLeft" align="right" valign="top"><a id="a2db9e2eb3e3d342a0644a2241c811c79"></a>
+std::unordered_map&lt; uint16_t, std::atomic&lt; uint64_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>pmt_counters</b></td></tr>
+<tr class="separator:a2db9e2eb3e3d342a0644a2241c811c79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeede8bacf2115013805c4dddd178d45c"><td class="memItemLeft" align="right" valign="top"><a id="aeede8bacf2115013805c4dddd178d45c"></a>
 Store&#160;</td><td class="memItemRight" valign="bottom"><b>monitoring_store</b></td></tr>
 <tr class="separator:aeede8bacf2115013805c4dddd178d45c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a529963468eb2c5d96cf716a78ced025d"><td class="memItemLeft" align="right" valign="top"><a id="a529963468eb2c5d96cf716a78ced025d"></a>
 std::mutex&#160;</td><td class="memItemRight" valign="bottom"><b>monitoring_store_mtx</b></td></tr>
 <tr class="separator:a529963468eb2c5d96cf716a78ced025d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fe87a338a2a14fd40ad002255ecece8"><td class="memItemLeft" align="right" valign="top"><a id="a9fe87a338a2a14fd40ad002255ecece8"></a>
+Pool&lt; <a class="el" href="structTimeSlice.html">TimeSlice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>time_slice_pool</b></td></tr>
+<tr class="separator:a9fe87a338a2a14fd40ad002255ecece8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acabb0b2c8f736ff30ce5b9482aa5deb4"><td class="memItemLeft" align="right" valign="top"><a id="acabb0b2c8f736ff30ce5b9482aa5deb4"></a>
 std::map&lt; uint64_t, <a class="el" href="structTimeSlice.html">TimeSlice</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>aggrigation_buffer</b></td></tr>
 <tr class="separator:acabb0b2c8f736ff30ce5b9482aa5deb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -120,9 +129,6 @@ std::map&lt; uint64_t, <a class="el" href="structTimeSlice.html">TimeSlice</a> *
 <tr class="memitem:a797800acfe07441c8ad1730de81e1c3d"><td class="memItemLeft" align="right" valign="top"><a id="a797800acfe07441c8ad1730de81e1c3d"></a>
 std::mutex&#160;</td><td class="memItemRight" valign="bottom"><b>main_buffer_mtx</b></td></tr>
 <tr class="separator:a797800acfe07441c8ad1730de81e1c3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9fe87a338a2a14fd40ad002255ecece8"><td class="memItemLeft" align="right" valign="top"><a id="a9fe87a338a2a14fd40ad002255ecece8"></a>
-Pool&lt; <a class="el" href="structTimeSlice.html">TimeSlice</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>time_slice_pool</b></td></tr>
-<tr class="separator:a9fe87a338a2a14fd40ad002255ecece8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e71774c4eac1a71c357924023f29d0c"><td class="memItemLeft" align="right" valign="top"><a id="a2e71774c4eac1a71c357924023f29d0c"></a>
 std::map&lt; uint32_t, uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>pmt_id_map</b></td></tr>
 <tr class="separator:a2e71774c4eac1a71c357924023f29d0c"><td class="memSeparator" colspan="2">&#160;</td></tr>

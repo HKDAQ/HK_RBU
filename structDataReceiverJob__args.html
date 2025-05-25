@@ -143,6 +143,12 @@ std::queue&lt; <a class="el" href="structTimeSlice.html">TimeSlice</a> * &gt;&#1
 <tr class="memitem:a32667f7ae966ffd0b2000cc37e1352f7"><td class="memItemLeft" align="right" valign="top"><a id="a32667f7ae966ffd0b2000cc37e1352f7"></a>
 std::queue&lt; <a class="el" href="structTimeSlice.html">TimeSlice</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tpu_time_slices</b></td></tr>
 <tr class="separator:a32667f7ae966ffd0b2000cc37e1352f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b9ea9fa6b4ab23b79dc9215cace055e"><td class="memItemLeft" align="right" valign="top"><a id="a0b9ea9fa6b4ab23b79dc9215cace055e"></a>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>card_id</b> = 0</td></tr>
+<tr class="separator:a0b9ea9fa6b4ab23b79dc9215cace055e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d0bcc0e59b11d0f6992eb4d86f76f7b"><td class="memItemLeft" align="right" valign="top"><a id="a8d0bcc0e59b11d0f6992eb4d86f76f7b"></a>
+std::unordered_map&lt; uint16_t, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>pmt_counters</b></td></tr>
+<tr class="separator:a8d0bcc0e59b11d0f6992eb4d86f76f7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This is a struct to place data you want your thread to access or exchange with it. The idea is the data inside is only used by the thread and so will be thread safe. this data will be used by the processing job which is run on individual output messages form the elctronics.</p>

@@ -31,14 +31,23 @@ Job\+Queue {\bfseries job\+\_\+queue}
 \mbox{\Hypertarget{classDataModel_ac4edacffc475bf54e646f9899ba8241c}\label{classDataModel_ac4edacffc475bf54e646f9899ba8241c}} 
 uint32\+\_\+t {\bfseries thread\+\_\+cap} = 20
 \item 
-\mbox{\Hypertarget{classDataModel_a103930f6284aabef7bd40eeb26d6d40a}\label{classDataModel_a103930f6284aabef7bd40eeb26d6d40a}} 
-uint32\+\_\+t {\bfseries num\+\_\+threads} = 0
+\mbox{\Hypertarget{classDataModel_a495991baaf583f28b0dc17f6075d9172}\label{classDataModel_a495991baaf583f28b0dc17f6075d9172}} 
+std\+::atomic$<$ uint32\+\_\+t $>$ {\bfseries num\+\_\+threads} \{0\}
+\item 
+\mbox{\Hypertarget{classDataModel_a3a22ebc07f132f7a1ac327f9235f711d}\label{classDataModel_a3a22ebc07f132f7a1ac327f9235f711d}} 
+std\+::unordered\+\_\+map$<$ uint16\+\_\+t, std\+::atomic$<$ uint64\+\_\+t $>$ $>$ {\bfseries card\+\_\+counters}
+\item 
+\mbox{\Hypertarget{classDataModel_a2db9e2eb3e3d342a0644a2241c811c79}\label{classDataModel_a2db9e2eb3e3d342a0644a2241c811c79}} 
+std\+::unordered\+\_\+map$<$ uint16\+\_\+t, std\+::atomic$<$ uint64\+\_\+t $>$ $>$ {\bfseries pmt\+\_\+counters}
 \item 
 \mbox{\Hypertarget{classDataModel_aeede8bacf2115013805c4dddd178d45c}\label{classDataModel_aeede8bacf2115013805c4dddd178d45c}} 
 Store {\bfseries monitoring\+\_\+store}
 \item 
 \mbox{\Hypertarget{classDataModel_a529963468eb2c5d96cf716a78ced025d}\label{classDataModel_a529963468eb2c5d96cf716a78ced025d}} 
 std\+::mutex {\bfseries monitoring\+\_\+store\+\_\+mtx}
+\item 
+\mbox{\Hypertarget{classDataModel_a9fe87a338a2a14fd40ad002255ecece8}\label{classDataModel_a9fe87a338a2a14fd40ad002255ecece8}} 
+Pool$<$ \mbox{\hyperlink{structTimeSlice}{Time\+Slice}} $>$ {\bfseries time\+\_\+slice\+\_\+pool}
 \item 
 \mbox{\Hypertarget{classDataModel_acabb0b2c8f736ff30ce5b9482aa5deb4}\label{classDataModel_acabb0b2c8f736ff30ce5b9482aa5deb4}} 
 std\+::map$<$ uint64\+\_\+t, \mbox{\hyperlink{structTimeSlice}{Time\+Slice}} $\ast$ $>$ {\bfseries aggrigation\+\_\+buffer}
@@ -51,9 +60,6 @@ std\+::map$<$ uint64\+\_\+t, \mbox{\hyperlink{structTimeSlice}{Time\+Slice}} $\a
 \item 
 \mbox{\Hypertarget{classDataModel_a797800acfe07441c8ad1730de81e1c3d}\label{classDataModel_a797800acfe07441c8ad1730de81e1c3d}} 
 std\+::mutex {\bfseries main\+\_\+buffer\+\_\+mtx}
-\item 
-\mbox{\Hypertarget{classDataModel_a9fe87a338a2a14fd40ad002255ecece8}\label{classDataModel_a9fe87a338a2a14fd40ad002255ecece8}} 
-Pool$<$ \mbox{\hyperlink{structTimeSlice}{Time\+Slice}} $>$ {\bfseries time\+\_\+slice\+\_\+pool}
 \item 
 \mbox{\Hypertarget{classDataModel_a2e71774c4eac1a71c357924023f29d0c}\label{classDataModel_a2e71774c4eac1a71c357924023f29d0c}} 
 std\+::map$<$ uint32\+\_\+t, uint16\+\_\+t $>$ {\bfseries pmt\+\_\+id\+\_\+map}
